@@ -42,19 +42,9 @@ classoption       : "man"
 output            : papaja::apa6_pdf # Can change ending to _word to knit to Word
 ---
 
-```{r setup, include = FALSE, message=FALSE, warning=FALSE}
-library(papaja)
-library(pwr)
-library(tidyverse)
 
-r_refs("r-references.bib")
-```
 
-```{r analysis-preferences}
-# Seed for random number generation
-set.seed(42)
-knitr::opts_chunk$set(cache.extra = knitr::rand_seed)
-```
+
 
 Data skills are increasingly recognised as a key component of psychological literacy. To promote reproducible data preparation and analysis workflows, educators have highlighted the role of teaching students how to use statistical programming languages instead of point-and-click software [@mcaleer_embedding_2022]. However, programming is rare in UK psychology curricula [@targ_meta-research_group_statistics_2022] and offers unique challenges such as how to prepare students to debug their code. Debugging code is a separate problem solving skill to learn alongside statistics, so it is important to understand how best to teach students debugging skills. 
 
@@ -66,24 +56,9 @@ We hypothesise that students who complete the error-full lecture will score high
 
 ## Participants
 
-```{r}
-# Power analysis inputs
-alpha <- 0.05
-power <- .90
 
-# Smallest effect size of interest based on small telescopes approach
-small_telescopes <- pwr.t2n.test(n1 = 25, n2 = 50, power = 0.33, sig.level = 0.05)$d
 
-sample_size <- ceiling(
-  pwr.t.test(d = small_telescopes,
-                          sig.level = alpha, 
-                          power = power,
-                          type = "two.sample",
-                          alternative = "two.sided")$n
-  )
-```
-
-Before collecting data, we performed an *a priori* power analysis to calculate how many participants we would need. @hoffman_students_2021 did not report any performance data, so we used @bebermeier_creating_2019 to set our smallest effect size of interest. They investigated the effect of creating statistics exercises based on research article. The researchers found students performed better on a class assignment when they completed these exercises than when students did not complete the exercises (*d* = 0.55). The authors did not comment on the effect size, so we chose a more conservative estimate based on the small telescopes approach [@simonsohn_small_2015] for the effect size the original study had 33% power to detect. Using an effect size of d = `r small_telescopes`, we aimed to recruit `r sample_size` participants per group for an independent samples t-test (\alpha = `r alpha`, power = `r power`). 
+Before collecting data, we performed an *a priori* power analysis to calculate how many participants we would need. @hoffman_students_2021 did not report any performance data, so we used @bebermeier_creating_2019 to set our smallest effect size of interest. They investigated the effect of creating statistics exercises based on research article. The researchers found students performed better on a class assignment when they completed these exercises than when students did not complete the exercises (*d* = 0.55). The authors did not comment on the effect size, so we chose a more conservative estimate based on the small telescopes approach [@simonsohn_small_2015] for the effect size the original study had 33% power to detect. Using an effect size of d = 0.38, we aimed to recruit 149 participants per group for an independent samples t-test (\alpha = 0.05, power = 0.90). 
 
 We finished with two groups of 145 and 130 participants, slightly fewer than our initial target. 
 
@@ -93,52 +68,13 @@ We finished with two groups of 145 and 130 participants, slightly fewer than our
 
 ## Data analysis
 
-We used `r cite_r("r-references.bib")` for all our analyses.
+We used R [Version 4.1.2\; @R-base] and the R-packages *dplyr* [Version 1.0.7\; @R-dplyr], *forcats* [Version 0.5.1\; @R-forcats], *ggplot2* [Version 3.3.5\; @R-ggplot2], *papaja* [Version 0.1.1\; @R-papaja], *purrr* [Version 0.3.4\; @R-purrr], *pwr* [Version 1.3.0\; @R-pwr], *readr* [Version 2.1.0\; @R-readr], *shiny* [Version 1.7.3\; @R-shiny], *stringr* [Version 1.4.1\; @R-stringr], *tibble* [Version 3.1.6\; @R-tibble], *tidyr* [Version 1.1.4\; @R-tidyr], *tidyverse* [Version 1.3.1\; @R-tidyverse], and *tinylabels* [Version 0.2.3\; @R-tinylabels] for all our analyses.
 
 # Results
 
-```{r simulate data}
-# How many participants per group?
-n1 <- 145
-n2 <- 130
 
-# Features of group A
-A_mean <- 50
-A_sd <- 10
 
-# Features of group B - 0.5 SDs better
-B_mean <- 55
-B_sd <- 10
 
-group_sim <- function(n, A_mean, A_sd, B_mean, B_sd){
-  group_A <- data.frame(Group = "Error-Free",
-                        DV = rnorm(n = n1,
-                                   mean = A_mean,
-                                   sd = A_sd))
-  
-  group_B <- data.frame(Group = "Error-Full",
-                        DV = rnorm(n = n2,
-                                   mean = B_mean,
-                                   sd = B_sd))
-  
-  # Combine into one data set
-  sim_data <- bind_rows(group_A, group_B)
-  
-  return(sim_data)
-  
-}
-
-# Run the function once to simulate based on arguments defined above
-# Give it an informative name relating to the features, so you can keep track
-
-set.seed(12847) # Based on a random process, so set a seed for reproducibility
-
-mock_data <- group_sim(n, A_mean, A_sd, B_mean, B_sd)
-```
-
-```{r mock graph}
-
-```
 
 
 # Discussion

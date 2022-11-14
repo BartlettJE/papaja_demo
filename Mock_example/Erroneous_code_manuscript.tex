@@ -208,9 +208,9 @@ Blah blah blah.
 \begin{document}
 \maketitle
 
-Data skills are increasingly recognised as a key component of psychological literacy. To promote reproducible data preparation and analysis workflows, educators have highlighted the role of teaching students how to use statistical programming languages instead of point-and-click software (1). However, programming is rare in UK psychology curricula (2) and offers unique challenges such as how to prepare students to debug their code. Debugging code is a separate problem solving skill to learn alongside statistics, so it is important to understand how best to teach students debugging skills.
+Data skills are increasingly recognised as a key component of psychological literacy. To promote reproducible data preparation and analysis workflows, educators have highlighted the role of teaching students how to use statistical programming languages instead of point-and-click software (McAleer et al., 2022). However, programming is rare in UK psychology curricula (TARG Meta-Research Group, 2022) and offers unique challenges such as how to prepare students to debug their code. Debugging code is a separate problem solving skill to learn alongside statistics, so it is important to understand how best to teach students debugging skills.
 
-(3) reported a small pilot study using SAS where they compared a traditional error-free course structure to an error-full course focusing on debugging errors alongside key concepts. 80\% of students preferred the error-full course but the study only included 18 participants and just 4 students completed assignments following each course, meaning they could not compare performance. Therefore, in our study, we want to apply these methods to the programming language R and recruit a larger sample.
+Hoffman and Elmi (2021) reported a small pilot study using SAS where they compared a traditional error-free course structure to an error-full course focusing on debugging errors alongside key concepts. 80\% of students preferred the error-full course but the study only included 18 participants and just 4 students completed assignments following each course, meaning they could not compare performance. Therefore, in our study, we want to apply these methods to the programming language R and recruit a larger sample.
 
 We hypothesise that students who complete the error-full lecture will score higher on a data skills assignment than students who complete the error-free lecture.
 
@@ -219,6 +219,10 @@ We hypothesise that students who complete the error-full lecture will score high
 
 \hypertarget{participants}{%
 \subsection{Participants}\label{participants}}
+
+Before collecting data, we performed an \emph{a priori} power analysis to calculate how many participants we would need. Hoffman and Elmi (2021) did not report any performance data, so we used Bebermeier and Hagemann (2019) to set our smallest effect size of interest. They investigated the effect of creating statistics exercises based on research article. The researchers found students performed better on a class assignment when they completed these exercises than when students did not complete the exercises (\emph{d} = 0.55). The authors did not comment on the effect size, so we chose a more conservative estimate based on the small telescopes approach (Simonsohn, 2015) for the effect size the original study had 33\% power to detect. Using an effect size of d = 0.38, we aimed to recruit 149 participants per group for an independent samples t-test (\alpha = 0.05, power = 0.90).
+
+We finished with two groups of 145 and 130 participants, slightly fewer than our initial target.
 
 \hypertarget{material}{%
 \subsection{Material}\label{material}}
@@ -229,7 +233,7 @@ We hypothesise that students who complete the error-full lecture will score high
 \hypertarget{data-analysis}{%
 \subsection{Data analysis}\label{data-analysis}}
 
-We used R (Version 4.1.3; 4) and the R-packages \emph{papaja} (Version 0.1.1; 5), and \emph{tinylabels} (Version 0.2.3; 6) for all our analyses.
+We used R (Version 4.1.2; R Core Team, 2022) and the R-packages \emph{dplyr} (Version 1.0.7; Wickham, François, et al., 2022), \emph{forcats} (Version 0.5.1; Wickham, 2021), \emph{ggplot2} (Version 3.3.5; Wickham, 2016), \emph{papaja} (Version 0.1.1; Aust \& Barth, 2022), \emph{purrr} (Version 0.3.4; Henry \& Wickham, 2020), \emph{pwr} (Version 1.3.0; Champely, 2020), \emph{readr} (Version 2.1.0; Wickham, Hester, et al., 2022), \emph{shiny} (Version 1.7.3; Chang et al., 2022), \emph{stringr} (Version 1.4.1; Wickham, 2022), \emph{tibble} (Version 3.1.6; Müller \& Wickham, 2022), \emph{tidyr} (Version 1.1.4; Wickham \& Girlich, 2022), \emph{tidyverse} (Version 1.3.1; Wickham et al., 2019), and \emph{tinylabels} (Version 0.2.3; Barth, 2022) for all our analyses.
 
 \hypertarget{results}{%
 \section{Results}\label{results}}
@@ -243,30 +247,63 @@ We used R (Version 4.1.3; 4) and the R-packages \emph{papaja} (Version 0.1.1; 5)
 \section{References}\label{references}}
 
 \hypertarget{refs}{}
-\begin{CSLReferences}{0}{0}
-\leavevmode\vadjust pre{\hypertarget{ref-mcaleer_embedding_2022}{}}%
-\CSLLeftMargin{1. }%
-\CSLRightInline{McAleer P, Stack N, Woods H, DeBruine L, Paterson H, Nordmann E, et al. Embedding {Data} {Skills} in {Research} {Methods} {Education}: {Preparing} {Students} for {Reproducible} {Research} {[}Internet{]}. PsyArXiv; 2022 {[}cited 2022 Nov 13{]}. Available from: \url{https://psyarxiv.com/hq68s/}}
-
-\leavevmode\vadjust pre{\hypertarget{ref-targ_meta-research_group_statistics_2022}{}}%
-\CSLLeftMargin{2. }%
-\CSLRightInline{TARG Meta-Research Group. Statistics {Education} in {Undergraduate} {Psychology}: {A} {Survey} of {UK} {Curricula}. Collabra: Psychology {[}Internet{]}. 2022 Sep {[}cited 2022 Nov 4{]};8(1):38037. Available from: \url{https://doi.org/10.1525/collabra.38037}}
-
-\leavevmode\vadjust pre{\hypertarget{ref-hoffman_students_2021}{}}%
-\CSLLeftMargin{3. }%
-\CSLRightInline{Hoffman HJ, Elmi AF. Do {Students} {Learn} {More} from {Erroneous} {Code}? {Exploring} {Student} {Performance} and {Satisfaction} in an {Error}-{Free} {Versus} an {Error}-full {SAS}® {Programming} {Environment}. Journal of Statistics and Data Science Education {[}Internet{]}. 2021 Aug {[}cited 2021 Sep 23{]};0(0):1--3. Available from: \url{https://www.tandfonline.com/doi/abs/10.1080/26939169.2021.1967229}}
-
-\leavevmode\vadjust pre{\hypertarget{ref-R-base}{}}%
-\CSLLeftMargin{4. }%
-\CSLRightInline{R Core Team. R: A language and environment for statistical computing {[}Internet{]}. Vienna, Austria: R Foundation for Statistical Computing; 2022. Available from: \url{https://www.R-project.org/}}
-
+\begin{CSLReferences}{1}{0}
 \leavevmode\vadjust pre{\hypertarget{ref-R-papaja}{}}%
-\CSLLeftMargin{5. }%
-\CSLRightInline{Aust F, Barth M. {papaja}: {Prepare} reproducible {APA} journal articles with {R Markdown} {[}Internet{]}. 2022. Available from: \url{https://github.com/crsh/papaja}}
+Aust, F., \& Barth, M. (2022). \emph{{papaja}: {Prepare} reproducible {APA} journal articles with {R Markdown}}. \url{https://github.com/crsh/papaja}
 
 \leavevmode\vadjust pre{\hypertarget{ref-R-tinylabels}{}}%
-\CSLLeftMargin{6. }%
-\CSLRightInline{Barth M. {tinylabels}: Lightweight variable labels {[}Internet{]}. 2022. Available from: \url{https://cran.r-project.org/package=tinylabels}}
+Barth, M. (2022). \emph{{tinylabels}: Lightweight variable labels}. \url{https://cran.r-project.org/package=tinylabels}
+
+\leavevmode\vadjust pre{\hypertarget{ref-bebermeier_creating_2019}{}}%
+Bebermeier, S., \& Hagemann, A. (2019). Creating {Statistics} {Exercises} on the {Basis} of {Research} {Articles}. \emph{Teaching of Psychology}, \emph{46}(3), 240--245. \url{https://doi.org/10.1177/0098628319853938}
+
+\leavevmode\vadjust pre{\hypertarget{ref-R-pwr}{}}%
+Champely, S. (2020). \emph{Pwr: Basic functions for power analysis}. \url{https://CRAN.R-project.org/package=pwr}
+
+\leavevmode\vadjust pre{\hypertarget{ref-R-shiny}{}}%
+Chang, W., Cheng, J., Allaire, J., Sievert, C., Schloerke, B., Xie, Y., Allen, J., McPherson, J., Dipert, A., \& Borges, B. (2022). \emph{Shiny: Web application framework for r}. \url{https://CRAN.R-project.org/package=shiny}
+
+\leavevmode\vadjust pre{\hypertarget{ref-R-purrr}{}}%
+Henry, L., \& Wickham, H. (2020). \emph{Purrr: Functional programming tools}. \url{https://CRAN.R-project.org/package=purrr}
+
+\leavevmode\vadjust pre{\hypertarget{ref-hoffman_students_2021}{}}%
+Hoffman, H. J., \& Elmi, A. F. (2021). Do {Students} {Learn} {More} from {Erroneous} {Code}? {Exploring} {Student} {Performance} and {Satisfaction} in an {Error}-{Free} {Versus} an {Error}-full {SAS}® {Programming} {Environment}. \emph{Journal of Statistics and Data Science Education}, \emph{0}(0), 1--13. \url{https://doi.org/10.1080/26939169.2021.1967229}
+
+\leavevmode\vadjust pre{\hypertarget{ref-mcaleer_embedding_2022}{}}%
+McAleer, P., Stack, N., Woods, H., DeBruine, L., Paterson, H., Nordmann, E., Kuepper-Tetzel, C. E., \& Barr, D. J. (2022). \emph{Embedding {Data} {Skills} in {Research} {Methods} {Education}: {Preparing} {Students} for {Reproducible} {Research}}. PsyArXiv. \url{https://doi.org/10.31234/osf.io/hq68s}
+
+\leavevmode\vadjust pre{\hypertarget{ref-R-tibble}{}}%
+Müller, K., \& Wickham, H. (2022). \emph{Tibble: Simple data frames}. \url{https://CRAN.R-project.org/package=tibble}
+
+\leavevmode\vadjust pre{\hypertarget{ref-R-base}{}}%
+R Core Team. (2022). \emph{R: A language and environment for statistical computing}. R Foundation for Statistical Computing. \url{https://www.R-project.org/}
+
+\leavevmode\vadjust pre{\hypertarget{ref-simonsohn_small_2015}{}}%
+Simonsohn, U. (2015). Small {Telescopes}: {Detectability} and the {Evaluation} of {Replication} {Results}. \emph{Psychological Science}, \emph{26}(5), 559--569. \url{https://doi.org/10.1177/0956797614567341}
+
+\leavevmode\vadjust pre{\hypertarget{ref-targ_meta-research_group_statistics_2022}{}}%
+TARG Meta-Research Group. (2022). Statistics {Education} in {Undergraduate} {Psychology}: {A} {Survey} of {UK} {Curricula}. \emph{Collabra: Psychology}, \emph{8}(1), 38037. \url{https://doi.org/10.1525/collabra.38037}
+
+\leavevmode\vadjust pre{\hypertarget{ref-R-ggplot2}{}}%
+Wickham, H. (2016). \emph{ggplot2: Elegant graphics for data analysis}. Springer-Verlag New York. \url{https://ggplot2.tidyverse.org}
+
+\leavevmode\vadjust pre{\hypertarget{ref-R-forcats}{}}%
+Wickham, H. (2021). \emph{Forcats: Tools for working with categorical variables (factors)}. \url{https://CRAN.R-project.org/package=forcats}
+
+\leavevmode\vadjust pre{\hypertarget{ref-R-stringr}{}}%
+Wickham, H. (2022). \emph{Stringr: Simple, consistent wrappers for common string operations}. \url{https://CRAN.R-project.org/package=stringr}
+
+\leavevmode\vadjust pre{\hypertarget{ref-R-tidyverse}{}}%
+Wickham, H., Averick, M., Bryan, J., Chang, W., McGowan, L. D., François, R., Grolemund, G., Hayes, A., Henry, L., Hester, J., Kuhn, M., Pedersen, T. L., Miller, E., Bache, S. M., Müller, K., Ooms, J., Robinson, D., Seidel, D. P., Spinu, V., \ldots{} Yutani, H. (2019). Welcome to the {tidyverse}. \emph{Journal of Open Source Software}, \emph{4}(43), 1686. \url{https://doi.org/10.21105/joss.01686}
+
+\leavevmode\vadjust pre{\hypertarget{ref-R-dplyr}{}}%
+Wickham, H., François, R., Henry, L., \& Müller, K. (2022). \emph{Dplyr: A grammar of data manipulation}. \url{https://CRAN.R-project.org/package=dplyr}
+
+\leavevmode\vadjust pre{\hypertarget{ref-R-tidyr}{}}%
+Wickham, H., \& Girlich, M. (2022). \emph{Tidyr: Tidy messy data}. \url{https://CRAN.R-project.org/package=tidyr}
+
+\leavevmode\vadjust pre{\hypertarget{ref-R-readr}{}}%
+Wickham, H., Hester, J., \& Bryan, J. (2022). \emph{Readr: Read rectangular text data}. \url{https://CRAN.R-project.org/package=readr}
 
 \end{CSLReferences}
 
