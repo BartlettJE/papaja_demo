@@ -7,7 +7,7 @@
 <link href="papaja_slides_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="papaja_slides_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
 <link href="papaja_slides_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.0.36">
+  <meta name="generator" content="quarto-1.1.189">
 
   <meta name="author" content="Dr James Bartlett">
   <title>APA-style manuscripts with RMarkdown and papaja</title>
@@ -19,10 +19,15 @@
   <style>
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
-    span.underline{text-decoration: underline;}
-    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
     ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
     pre > code.sourceCode { white-space: pre; position: relative; }
     pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
     pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -387,73 +392,165 @@
   <p class="author">Dr James Bartlett</p>
 </section>
 
-<section class="slide level2">
-
-<div class="cell">
-
-</div>
-</section>
-<section id="quarto" class="slide level2">
-<h2>Quarto</h2>
-<p>Quarto enables you to weave together content and executable code into a finished presentation. To learn more about Quarto presentations see <a href="https://quarto.org/docs/presentations/" class="uri">https://quarto.org/docs/presentations/</a>.</p>
-</section>
-<section id="bullets" class="slide level2">
-<h2>Bullets</h2>
-<p>When you click the <strong>Render</strong> button a document will be generated that includes:</p>
-<ul>
-<li>Content authored with markdown</li>
-<li>Output from executable code</li>
-</ul>
-</section>
-<section id="code" class="slide level2">
-<h2>Code</h2>
-<p>When you click the <strong>Render</strong> button a presentation will be generated that includes both content and the output of embedded code. You can embed code like this:</p>
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 2</code></pre>
-</div>
-</div>
-</section>
 <section id="what-problems-are-we-trying-to-solve" class="slide level2">
 <h2>What problems are we trying to solve?</h2>
-<h3 id="case-study-of-my-mistakes">Case study of my mistakes</h3>
+<p><strong>Computational reproducibility</strong></p>
+<ul>
+<li><p>31% reproducibility success rate in one journal (<a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6124055/">Hardwicke et al., 2018</a>)</p></li>
+<li><p>58% reproducibility success rate in registered reports (<a href="https://doi.org/10.1177/2515245920918872">Obels et al., 2020</a>)</p></li>
+</ul>
+<p><strong>Reporting errors</strong></p>
+<ul>
+<li>49.6% of articles containined an inconsistency between test statistic, degrees of freedom, and <em>p</em>-values (<a href="http://link.springer.com/10.3758/s13428-015-0664-2">Nuijten et al., 2016</a>)</li>
+</ul>
+</section>
+<section id="what-problems-are-we-trying-to-solve-1" class="slide level2">
+<h2>What problems are we trying to solve?</h2>
+<p><strong>Connection between code and output</strong></p>
+<ul>
+<li>Even when authors share data and reproducible code, there might not be a clear connection between the code and relevant output in the manuscript (anecdote)</li>
+</ul>
+<p><strong>Reproducible manuscripts</strong></p>
+<ul>
+<li><p>Potential to avoid these errors as you combine code, results, and prose in one document</p></li>
+<li><p>When there are errors, there are <em>reproducible errors</em></p></li>
+</ul>
+</section>
+<section id="my-journey" class="slide level2">
+<h2>My journey</h2>
+<p>It took me several years and projects to adopt this workflow:</p>
+<ol type="1">
+<li><p>Copying results from SPSS output</p></li>
+<li><p>Copying results from R output</p></li>
+<li><p>Using R Markdown to create reproducible results</p></li>
+<li><p>Using papaja to write reproducible manuscripts</p></li>
+</ol>
+</section>
+<section id="papaja" class="slide level2">
+<h2>papaja</h2>
+<p>papaja (<a href="https://github.com/crsh/papaja">Aust &amp; Barth, 2022</a>) adds templates when you create a new R Markdown document</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># Install latest CRAN release</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="fu">install.packages</span>(<span class="st">"papaja"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>In this tutorial, I will walk through:</p>
+<ul>
+<li><p>YAML options</p></li>
+<li><p>Citations/references via a .bib file</p></li>
+<li><p>Inline code</p></li>
+<li><p>Tables / figures</p></li>
+</ul>
+</section>
+<section id="mock-example-error-free-vs-error-full-code" class="slide level2">
+<h2>Mock example: Error-free vs error-full code</h2>
+<ul>
+<li><p>I’ve created a mock example using papaja and simulated data to show it capabilities</p></li>
+<li><p>Building on <a href="https://www.tandfonline.com/doi/abs/10.1080/26939169.2021.1967229">Hoffman and Elmi (2021)</a>: What is the effect of teaching debugging skills on students’ data wrangling ability?</p></li>
+<li><p>Randomly allocate students to an error-full or error-free lecture (IV) and measure performance on a data skills assignment (DV)</p></li>
+</ul>
 </section>
 <section id="yaml-options" class="slide level2">
 <h2>YAML options</h2>
-<h3 id="adding-a-.bib-file">Adding a .bib file</h3>
-<p>I use Zotero as a reference manager: <a href="https://www.zotero.org/" class="uri">https://www.zotero.org/</a></p>
+<h3 id="author-information">Author information</h3>
 <ul>
-<li><p>Create a collection</p></li>
-<li><p>Export collection</p></li>
-<li><p>Format BibTeX and OK</p></li>
-<li><p>Save as in your document directory</p></li>
+<li><p>Name and affiliation for each author, but only one corresponding author</p></li>
+<li><p>Option to include contributorship roles, such as <a href="https://www.elsevier.com/authors/policies-and-guidelines/credit-author-statement">CRediT</a>.</p></li>
 </ul>
 <pre><code>---
-bibliography      : ["references.bib", "r-references.bib"]
+author: 
+  - name          : "James Bartlett"
+    affiliation   : "1"
+    corresponding : yes    # Define only one corresponding author
+    address       : "62 Hillhead Street, Glasgow"
+    email         : "james.bartlett@glasgow.ac.uk"
+    role:         
+      - "Conceptualization"
+      - "Writing - Original Draft Preparation"
+      - "Writing - Review &amp; Editing"
 ---</code></pre>
 </section>
 <section id="yaml-options-1" class="slide level2">
 <h2>YAML options</h2>
+<div class="cell">
+
+</div>
+<h3 id="adding-a-.bib-file">Adding a .bib file</h3>
+<p>I recommend Zotero as a reference manager: <a href="https://www.zotero.org/" class="uri">https://www.zotero.org/</a></p>
+<ul>
+<li><p>Create a collection</p></li>
+<li><p>Export collection</p></li>
+<li><p>Format BibTeX and OK</p></li>
+<li><p>Save as in your document working directory</p></li>
+</ul>
+<pre><code>    ---
+    bibliography      : ["references.bib", "r-references.bib"]
+    ---</code></pre>
+</section>
+<section id="yaml-options-2" class="slide level2">
+<h2>YAML options</h2>
 <h3 id="changing-the-reference-style">Changing the reference style</h3>
 <ul>
 <li><p>Once you have a .bib file, you can easily change the style by selecting a different citation style language (CSL)</p></li>
-<li><p>Over 10,000 on the Zotero style repository, just save as and add .csl to the file: <a href="https://www.zotero.org/styles" class="uri">https://www.zotero.org/styles</a></p></li>
+<li><p>Over 10,000 in the Zotero style repository, just save as and add .csl to the file: <a href="https://www.zotero.org/styles" class="uri">https://www.zotero.org/styles</a></p></li>
 </ul>
 <p>E.g., APA 7th edition</p>
-<pre><code>---
-csl               : apa7.csl
----</code></pre>
+<pre><code>    ---
+    csl               : apa7.csl
+    ---</code></pre>
 </section>
-<section id="yaml-options-2" class="slide level2">
+<section id="yaml-options-3" class="slide level2">
 <h2>YAML options</h2>
 <h3 id="changing-the-reference-style-1">Changing the reference style</h3>
 <ul>
 <li><p>Once you have a .bib file, you can easily change the style by selecting a different citation style language (CSL)</p></li>
-<li><p>Over 10,000 on the Zotero style repository, just save as and add .csl to the file: <a href="https://www.zotero.org/styles" class="uri">https://www.zotero.org/styles</a></p></li>
+<li><p>Over 10,000 in the Zotero style repository, just save as and add .csl to the file: <a href="https://www.zotero.org/styles" class="uri">https://www.zotero.org/styles</a></p></li>
 </ul>
 <p>E.g., Vancouver</p>
+<pre><code>    ---
+    csl               : vancouver.csl
+    ---</code></pre>
+</section>
+<section id="yaml-options-4" class="slide level2">
+<h2>YAML options</h2>
+<h3 id="changing-the-reference-style-2">Changing the reference style</h3>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p>APA 7th edition <img data-src="Screenshots/apa7.png"></p>
+</div><div class="column" style="width:50%;">
+<p>Vancouver <img data-src="Screenshots/vancouver.png"></p>
+</div>
+</div>
+</section>
+<section id="yaml-options-5" class="slide level2">
+<h2>YAML options</h2>
+<h3 id="manuscript-options">Manuscript options</h3>
+<p>Depending on the journal submission guidelines, you can change different features like:</p>
+<ul>
+<li><p>Floating figures/tables in-text or at the end</p></li>
+<li><p>Being kind to your reviewer and adding line numbers</p></li>
+<li><p>Masking the manuscript and omitting author information</p></li>
+</ul>
 <pre><code>---
-csl               : vancouver.csl
+floatsintext      : yes # Figures and tables floating or at the end?
+linenumbers       : yes # Add line numbers? 
+draft             : no # Add draft watermark on every page? 
+mask              : no # Hide author details for blind submission? 
+---</code></pre>
+</section>
+<section id="yaml-options-6" class="slide level2">
+<h2>YAML options</h2>
+<h3 id="output-options">Output options</h3>
+<ul>
+<li>The default output with the best functionality for the knitted document is a PDF:</li>
+</ul>
+<pre><code>---
+output            : papaja::apa6_pdf 
+---</code></pre>
+<ul>
+<li>However, you can also knit a Word document if you need it:</li>
+</ul>
+<pre><code>---
+output            : papaja::apa6_word
 ---</code></pre>
 </section>
 <section id="citations-and-references" class="slide level2">
@@ -463,53 +560,189 @@ csl               : vancouver.csl
 <div class="column" style="width:60%;">
 <p>Alongside papaja, Aust created a great helper package called citr which makes it easy to browse a .bib file and insert citations.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="co"># Not currently on CRAN</span></span>
-<span id="cb5-2"><a href="#cb5-2"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"crsh/citr"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="co"># Not currently on CRAN</span></span>
+<span id="cb9-2"><a href="#cb9-2"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"crsh/citr"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div><div class="column" style="width:40%;">
 <p><img data-src="Screenshots/citr.png"></p>
 </div>
 </div>
 </section>
-<section id="in-line-code" class="slide level2">
-<h2>In-line code</h2>
+<section id="inline-code" class="slide level2">
+<h2>Inline code</h2>
 <h3 id="power-analysis">Power analysis</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>effect_size <span class="ot">&lt;-</span> <span class="fl">0.5</span></span>
-<span id="cb6-2"><a href="#cb6-2"></a>alpha <span class="ot">&lt;-</span> .<span class="dv">05</span></span>
-<span id="cb6-3"><a href="#cb6-3"></a>power <span class="ot">&lt;-</span> .<span class="dv">90</span></span>
-<span id="cb6-4"><a href="#cb6-4"></a></span>
-<span id="cb6-5"><a href="#cb6-5"></a>power_analysis <span class="ot">&lt;-</span> <span class="fu">pwr.t.test</span>(<span class="at">d =</span> effect_size, </span>
-<span id="cb6-6"><a href="#cb6-6"></a>                             <span class="at">sig.level =</span> alpha,</span>
-<span id="cb6-7"><a href="#cb6-7"></a>                             <span class="at">power =</span> power, </span>
-<span id="cb6-8"><a href="#cb6-8"></a>                             <span class="at">type =</span> <span class="st">"two.sample"</span>)</span>
-<span id="cb6-9"><a href="#cb6-9"></a></span>
-<span id="cb6-10"><a href="#cb6-10"></a>sample_size <span class="ot">&lt;-</span> <span class="fu">ceiling</span>(power_analysis<span class="sc">$</span>n)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
 </div>
-<p>A power analysis showed we would need <code>'r sample_size'</code> participants per group to detect an effect size of d = <code>'r effect_size'</code> with <code>'r power*100'</code>% power (alpha = <code>'r alpha'</code>).</p>
-</section>
-<section id="in-line-code-1" class="slide level2">
-<h2>In-line code</h2>
-<h3 id="power-analysis-1">Power analysis</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>effect_size <span class="ot">&lt;-</span> <span class="fl">0.5</span></span>
-<span id="cb7-2"><a href="#cb7-2"></a>alpha <span class="ot">&lt;-</span> .<span class="dv">05</span></span>
-<span id="cb7-3"><a href="#cb7-3"></a>power <span class="ot">&lt;-</span> .<span class="dv">90</span></span>
-<span id="cb7-4"><a href="#cb7-4"></a></span>
-<span id="cb7-5"><a href="#cb7-5"></a>power_analysis <span class="ot">&lt;-</span> <span class="fu">pwr.t.test</span>(<span class="at">d =</span> effect_size, </span>
-<span id="cb7-6"><a href="#cb7-6"></a>                             <span class="at">sig.level =</span> alpha,</span>
-<span id="cb7-7"><a href="#cb7-7"></a>                             <span class="at">power =</span> power, </span>
-<span id="cb7-8"><a href="#cb7-8"></a>                             <span class="at">type =</span> <span class="st">"two.sample"</span>)</span>
-<span id="cb7-9"><a href="#cb7-9"></a></span>
-<span id="cb7-10"><a href="#cb7-10"></a>sample_size <span class="ot">&lt;-</span> <span class="fu">ceiling</span>(power_analysis<span class="sc">$</span>n)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="co"># Inputs hidden on slides to save space</span></span>
+<span id="cb10-2"><a href="#cb10-2"></a></span>
+<span id="cb10-3"><a href="#cb10-3"></a>sample_size <span class="ot">&lt;-</span> <span class="fu">ceiling</span>(</span>
+<span id="cb10-4"><a href="#cb10-4"></a>  <span class="fu">pwr.t.test</span>(<span class="at">d =</span> small_telescopes,</span>
+<span id="cb10-5"><a href="#cb10-5"></a>             <span class="at">sig.level =</span> alpha, </span>
+<span id="cb10-6"><a href="#cb10-6"></a>             <span class="at">power =</span> power,</span>
+<span id="cb10-7"><a href="#cb10-7"></a>             <span class="at">type =</span> <span class="st">"two.sample"</span>,</span>
+<span id="cb10-8"><a href="#cb10-8"></a>             <span class="at">alternative =</span> <span class="st">"two.sided"</span>)<span class="sc">$</span>n</span>
+<span id="cb10-9"><a href="#cb10-9"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>A power analysis showed we would need 86 participants per group to detect an effect size of d = 0.5 with 90% power (alpha = 0.05).</p>
+<p>Using an effect size of d = 0.38, we aimed to recruit 149 participants per group for an independent samples t-test (<span class="math inline">\(\alpha\)</span> = 0.05, power = 0.9).</p>
 </section>
-<section id="tables-and-figures" class="slide level2">
-<h2>Tables and figures</h2>
+<section id="inline-code-1" class="slide level2">
+<h2>Inline code</h2>
+<h3 id="power-analysis-1">Power analysis</h3>
+<p>Behind the scenes…</p>
+<p>Using an effect size of d = <code>'r small_telescopes'</code>, we aimed to recruit <code>'r sample_size'</code> participants per group for an independent samples t-test (<code>'$\alpha$'</code> = <code>'r alpha'</code>, power = <code>'r power'</code>).</p>
 </section>
-<section id="summary" class="slide level2">
-<h2>Summary</h2>
+<section id="adding-external-images" class="slide level2">
+<h2>Adding external images</h2>
+<p>papaja supports adding external images via knitr: <a href="http://frederikaust.com/papaja_man/reporting.html#figures" class="uri">http://frederikaust.com/papaja_man/reporting.html#figures</a></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">"Screenshots/procedure_diagram.png"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="Screenshots/procedure_diagram.png" width="430" class="r-stretch"></section>
+<section id="figures" class="slide level2">
+<h2>Figures</h2>
+<div class="cell">
+
+</div>
+<p>You display reproducible graphs from your code chunks</p>
+
+<img data-src="papaja_slides_files/figure-revealjs/violin-plot-1.png" width="960" class="r-stretch"></section>
+<section id="figures-1" class="slide level2">
+<h2>Figures</h2>
+<p>Behind the scenes…</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>mock_data <span class="sc">%&gt;%</span> </span>
+<span id="cb12-2"><a href="#cb12-2"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Group, <span class="at">y =</span> DV, <span class="at">fill =</span> Group)) <span class="sc">+</span> </span>
+<span id="cb12-3"><a href="#cb12-3"></a>  <span class="fu">geom_violin</span>() <span class="sc">+</span></span>
+<span id="cb12-4"><a href="#cb12-4"></a>  <span class="co"># remove the median line with fatten = NULL</span></span>
+<span id="cb12-5"><a href="#cb12-5"></a>  <span class="fu">geom_boxplot</span>(<span class="at">width =</span> .<span class="dv">2</span>, </span>
+<span id="cb12-6"><a href="#cb12-6"></a>               <span class="at">fatten =</span> <span class="cn">NULL</span>, <span class="at">colour =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb12-7"><a href="#cb12-7"></a>  <span class="fu">stat_summary</span>(<span class="at">fun =</span> <span class="st">"mean"</span>, <span class="at">geom =</span> <span class="st">"point"</span>) <span class="sc">+</span></span>
+<span id="cb12-8"><a href="#cb12-8"></a>  <span class="fu">stat_summary</span>(<span class="at">fun.data =</span> <span class="st">"mean_se"</span>, </span>
+<span id="cb12-9"><a href="#cb12-9"></a>               <span class="at">geom =</span> <span class="st">"errorbar"</span>, </span>
+<span id="cb12-10"><a href="#cb12-10"></a>               <span class="at">width =</span> .<span class="dv">1</span>) <span class="sc">+</span> </span>
+<span id="cb12-11"><a href="#cb12-11"></a>  <span class="fu">scale_fill_viridis_d</span>(<span class="at">option =</span> <span class="st">"D"</span>, <span class="at">begin =</span> <span class="fl">0.3</span>, <span class="at">end =</span> <span class="fl">0.6</span>) <span class="sc">+</span> </span>
+<span id="cb12-12"><a href="#cb12-12"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span> </span>
+<span id="cb12-13"><a href="#cb12-13"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"None"</span>) <span class="sc">+</span> </span>
+<span id="cb12-14"><a href="#cb12-14"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Lecture Group"</span>,</span>
+<span id="cb12-15"><a href="#cb12-15"></a>       <span class="at">y =</span> <span class="st">"Data skills test score (%)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="figures-2" class="slide level2">
+<h2>Figures</h2>
+<p>In the code chunk settings, you can do things like reference a caption and control the size of figures</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>Figure \@ref(fig:violin-plot) shows...</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>(ref:violin-plot-caption) Violin and boxplot of... </span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="in">```{r violin-plot, fig.cap="(ref:violin-plot-caption)", out.width="100%"}</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>mock_data <span class="sc">%&gt;%</span> </span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Group, <span class="at">y =</span> DV, <span class="at">fill =</span> Group)) <span class="sc">+</span> </span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>()...</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="tables" class="slide level2">
+<h2>Tables</h2>
+<p>papaja has some helper functions for creating APA style tables (which don’t play nicely with html…): <a href="http://frederikaust.com/papaja_man/reporting.html#tables" class="uri">http://frederikaust.com/papaja_man/reporting.html#tables</a></p>
+<div class="cell">
+<div class="cell-output-display">
+
+(#tab:unnamed-chunk-8)
+
+<div data-custom-style="Table Caption">
+<em>Descriptive statistics of…</em>
+</div>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Group</th>
+<th style="text-align: left;">Mean</th>
+<th style="text-align: left;">SD</th>
+<th style="text-align: left;">Min</th>
+<th style="text-align: left;">Max</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Error-Free</td>
+<td style="text-align: left;">49.94</td>
+<td style="text-align: left;">11.03</td>
+<td style="text-align: left;">14.91</td>
+<td style="text-align: left;">75.80</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Error-Full</td>
+<td style="text-align: left;">54.88</td>
+<td style="text-align: left;">10.42</td>
+<td style="text-align: left;">24.13</td>
+<td style="text-align: left;">92.22</td>
+</tr>
+</tbody>
+</table>
+<div data-custom-style="Compact">
+<p><em>Note.</em> Test scores could range from 0-100%</p>
+</div>
+<p>&nbsp;</p>
+</div>
+</div>
+</section>
+<section id="tables-1" class="slide level2">
+<h2>Tables</h2>
+<p>Behind the scenes…</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="co"># Calculate descriptives</span></span>
+<span id="cb14-2"><a href="#cb14-2"></a>mock_descriptives <span class="ot">&lt;-</span> mock_data <span class="sc">%&gt;%</span> </span>
+<span id="cb14-3"><a href="#cb14-3"></a>  <span class="fu">group_by</span>(Group) <span class="sc">%&gt;%</span> </span>
+<span id="cb14-4"><a href="#cb14-4"></a>  <span class="fu">summarise</span>(<span class="at">Mean =</span> <span class="fu">mean</span>(DV),</span>
+<span id="cb14-5"><a href="#cb14-5"></a>            <span class="at">SD =</span> <span class="fu">sd</span>(DV),</span>
+<span id="cb14-6"><a href="#cb14-6"></a>            <span class="at">Min =</span> <span class="fu">min</span>(DV),</span>
+<span id="cb14-7"><a href="#cb14-7"></a>            <span class="at">Max =</span> <span class="fu">max</span>(DV)) <span class="sc">%&gt;%</span> </span>
+<span id="cb14-8"><a href="#cb14-8"></a>  <span class="fu">ungroup</span>()</span>
+<span id="cb14-9"><a href="#cb14-9"></a></span>
+<span id="cb14-10"><a href="#cb14-10"></a><span class="co"># papaja function to round and save as character</span></span>
+<span id="cb14-11"><a href="#cb14-11"></a>descriptives <span class="ot">&lt;-</span> <span class="fu">printnum</span>(mock_descriptives)</span>
+<span id="cb14-12"><a href="#cb14-12"></a></span>
+<span id="cb14-13"><a href="#cb14-13"></a><span class="co"># papaja function to creata APA table</span></span>
+<span id="cb14-14"><a href="#cb14-14"></a><span class="fu">apa_table</span>(descriptives,</span>
+<span id="cb14-15"><a href="#cb14-15"></a>          <span class="at">caption =</span> <span class="st">"Descriptive statistics of..."</span>,</span>
+<span id="cb14-16"><a href="#cb14-16"></a>          <span class="at">note =</span> <span class="st">"Test scores could range from 0-100%"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="inline-code-2" class="slide level2">
+<h2>Inline code</h2>
+<h3 id="statistical-tests">Statistical tests</h3>
+<p>papaja has helper functions for creating APA style result formatting: <a href="http://frederikaust.com/papaja_man/reporting.html#statistical-models-and-tests" class="uri">http://frederikaust.com/papaja_man/reporting.html#statistical-models-and-tests</a></p>
+<div class="cell">
+
+</div>
+<p>“Consistent with our hypothesis, a Welch t-test shows that participants in the error-full group produced significantly higher data skills assignment scores than those in the error-free group, <span class="math inline">\(\Delta M = -4.94\)</span>, 95% CI <span class="math inline">\([-7.49, -2.40]\)</span>, <span class="math inline">\(t(272.23) = -3.82\)</span>, <span class="math inline">\(p &lt; .001\)</span>.”</p>
+</section>
+<section id="inline-code-3" class="slide level2">
+<h2>Inline code</h2>
+<h3 id="statistical-tests-1">Statistical tests</h3>
+<p>Behind the scenes…</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="co"># Save ttest as object</span></span>
+<span id="cb15-2"><a href="#cb15-2"></a>mock_ttest <span class="ot">&lt;-</span> <span class="fu">t.test</span>(DV <span class="sc">~</span> Group, </span>
+<span id="cb15-3"><a href="#cb15-3"></a>                     <span class="at">data =</span> mock_data, </span>
+<span id="cb15-4"><a href="#cb15-4"></a>                     <span class="at">paired =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb15-5"><a href="#cb15-5"></a></span>
+<span id="cb15-6"><a href="#cb15-6"></a><span class="co"># papaja helper function of printing results in APA</span></span>
+<span id="cb15-7"><a href="#cb15-7"></a>apa_ttest <span class="ot">&lt;-</span> <span class="fu">apa_print</span>(mock_ttest)<span class="sc">$</span>full_result</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>“Consistent with our hypothesis, a Welch t-test shows that participants in the error-full group produced significantly higher data skills assignment scores than those in the error-free group, <code>'r apa_ttest'</code>.”</p>
+</section>
+<section id="where-to-learn-more" class="slide level2">
+<h2>Where to learn more?</h2>
+<ul>
+<li><p>Slides and folder containing mock example available on Github: <a href="https://github.com/BartlettJE/papaja_demo" class="uri">https://github.com/BartlettJE/papaja_demo</a></p></li>
+<li><p>Full example from my recent publication: <a href="https://osf.io/gm4jr/" class="uri">https://osf.io/gm4jr/</a></p></li>
+<li><p>papaja manual (section 7 includes published manuscripts using papaja): <a href="http://frederikaust.com/papaja_man/" class="uri">http://frederikaust.com/papaja_man/</a></p></li>
+</ul>
 <div class="footer footer-default">
 
 </div>
@@ -835,7 +1068,8 @@ csl               : vancouver.csl
       for (var i=0; i<noterefs.length; i++) {
         const ref = noterefs[i];
         tippyHover(ref, function() {
-          let href = ref.getAttribute('href');
+          // use id or data attribute instead here
+          let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
           try { href = new URL(href).hash; } catch {}
           const id = href.replace(/^#\/?/, "");
           const note = window.document.getElementById(id);

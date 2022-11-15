@@ -1,5 +1,5 @@
 ---
-title             : "The effect of erroneous R code on student performance"
+title             : "The effect of erroneous R code on developing data skills"
 shorttitle        : "Erroneous R code"
 
 author: 
@@ -30,12 +30,12 @@ abstract: |
   Adopting a lecture format that covers both data wrangling and debugging skills has the potential to improve student's understanding of reproducible data preparation and analysis.
   
 keywords          : "learning, R, statistical programming, error-full learning"
-wordcount         : "1200"
+wordcount         : "1018"
 
 bibliography      : ["references.bib", "r-references.bib"]
 csl               : apa7.csl
 
-floatsintext      : yes # 
+floatsintext      : yes # Figures and tables floating or at the end?
 linenumbers       : yes # Add line numbers? 
 draft             : no # Add draft watermark on every page? 
 mask              : no # Hide author details for blind submission? 
@@ -49,11 +49,16 @@ output            : papaja::apa6_pdf # Can change ending to _word to knit to Wor
 ---
 
 ```{r setup, include = FALSE, message=FALSE, warning=FALSE}
+# load packages for bare bones demo
 library(papaja)
 library(pwr)
-library(tidyverse)
+library(dplyr)
+library(ggplot2)
+library(readr)
 
-r_refs("r-references.bib")
+# papaja function to create .bib file of all loaded R packages
+r_refs("r-references.bib", 
+       append = FALSE) # Overwrite rather than append previous entries
 ```
 
 ```{r analysis-preferences}
@@ -80,12 +85,13 @@ power <- .90
 # Smallest effect size of interest based on small telescopes approach
 small_telescopes <- pwr.t2n.test(n1 = 25, n2 = 50, power = 0.33, sig.level = 0.05)$d
 
-sample_size <- ceiling(
+# Calculate sample size using inputs and smallest effect size of interest
+sample_size <- ceiling( # round up to integer
   pwr.t.test(d = small_telescopes,
                           sig.level = alpha, 
                           power = power,
                           type = "two.sample",
-                          alternative = "two.sided")$n
+                          alternative = "two.sided")$n # Isolate sample size from results
   )
 ```
 
@@ -108,6 +114,9 @@ We offered participants an additional bonus lecture outside their normal course 
 (ref:procedure-diagram-caption) Procedure diagram showing how students were randomly allocated to an error-free or error-full version of a lecture before completing a data skills assignment. 
 
 ```{r procedure-diagram, fig.cap="(ref:procedure-diagram-caption)", out.width="100%"}
+# Knitr function to include an image from a given directory
+# Size can be an issue, so can control in the R chunk using out.width
+
 knitr::include_graphics("Figures/procedure_diagram.png")
 ```
 
@@ -120,18 +129,22 @@ Data met parametric assumptions and we used a Welch t-test to compare the two gr
 # Results
 
 ```{r simulate data}
-# How many participants per group?
-n1 <- 145
-n2 <- 130
+# Function I had prepared from a student project where we had to simulate the same design over and over
 
-# Features of group A
+# How many participants per group?
+n1 <- 145 # Error free
+n2 <- 130 #Error full
+
+# Features of group A - Error free
 A_mean <- 50
 A_sd <- 10
 
-# Features of group B - 0.5 SDs better
+# Features of group B - Error full - 0.5 SDs better
 B_mean <- 55
 B_sd <- 10
 
+# Take inputs and simulate data from normal distribution
+# Bind rows to turn into a tidy dataset
 group_sim <- function(n, A_mean, A_sd, B_mean, B_sd){
   group_A <- data.frame(Group = "Error-Free",
                         DV = rnorm(n = n1,
@@ -150,39 +163,44 @@ group_sim <- function(n, A_mean, A_sd, B_mean, B_sd){
   
 }
 
-# Run the function once to simulate based on arguments defined above
-# Give it an informative name relating to the features, so you can keep track
-
 set.seed(12847) # Based on a random process, so set a seed for reproducibility
+
+# Run the function once to simulate based on arguments defined above
 
 mock_data <- group_sim(n, A_mean, A_sd, B_mean, B_sd)
 
+# Mutate to turn group into a factor
 mock_data <- mock_data %>% 
   mutate(Group = factor(Group))
 ```
 
 ```{r descriptives-table}
+# Take mock data and group by group variable
+# Calculate bunch of descriptive statistics
 mock_descriptives <- mock_data %>% 
   group_by(Group) %>% 
   summarise(Mean = mean(DV),
             SD = sd(DV),
             Min = min(DV),
             Max = max(DV)) %>% 
-  ungroup()
+  ungroup() # Always ungroups 
 
+# papaja function to round and save as character
 descriptives <- printnum(mock_descriptives)
 
+# papaja function to creata APA table
 apa_table(descriptives,
           caption = "Descriptive statistics of data skills assignment for each lecture group.",
           note = "Test scores could range from 0-100%")
 ```
 
 ```{r ttest}
-
+# Save ttest as object
 mock_ttest <- t.test(DV ~ Group, 
                      data = mock_data, 
                      paired = FALSE)
 
+# papaja helper function of printing results in APA
 apa_ttest <- apa_print(mock_ttest)$full_result
 
 ```
@@ -193,17 +211,19 @@ We present the descriptive statistics in Table \@ref(tab:descriptives-table) and
 
 ```{r violin-plot, fig.cap="(ref:violin-plot-caption)", out.width="100%", warning = FALSE}
 
+# Create modified violin box plot as we're working with continuous outcome
 mock_data %>% 
-  ggplot(aes(x = Group, y = DV, fill = Group)) + 
+  ggplot(aes(x = Group, y = DV, fill = Group)) + # Group as IV, data skills as DV
   geom_violin() +
-  # remove the median line with fatten = NULL
-  geom_boxplot(width = .2, 
-               fatten = NULL, colour = "black") +
-  stat_summary(fun = "mean", geom = "point") +
-  stat_summary(fun.data = "mean_se", 
+  geom_boxplot(width = .2, # Control boxplot width   
+               fatten = NULL, # remove the median line with fatten = NULL 
+               colour = "black") + # Colour of boxplot
+  stat_summary(fun = "mean", geom = "point") + # Add mean instead of median
+  stat_summary(fun.data = "mean_se", # Add SE around the mean
                geom = "errorbar", 
-               width = .1) + 
-  scale_fill_viridis_d(option = "D", begin = 0.3, end = 0.6) + 
+               width = .1) + # Control error bar width
+  scale_fill_viridis_d(option = "D", # Viridis for colour blind friendly pallete
+                       begin = 0.3, end = 0.6) + # Control colour region
   theme_classic() + 
   theme(legend.position = "None") + 
   labs(x = "Lecture Group",
