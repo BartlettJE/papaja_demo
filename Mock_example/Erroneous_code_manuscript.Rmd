@@ -93,7 +93,7 @@ In the error-free lecture, students heard a one hour presentation on data wrangl
 
 In the error-full lecture, students heard a one hour presentation on data wrangling, the same as in the error-free group. However, in this group we also guided students through an error interpretation session to demonstrate common errors when using these data wrangling functions. 
 
-Both groups of students completed the same data skills assignment on data wrangling where students had to write code to solve problems and debug errors. Scores could range from 0-100. 
+Both groups of students completed the same data skills assignment on data wrangling where students had to write code to solve problems and debug errors. Scores could range from 0-100%. 
 
 ## Procedure
 
@@ -107,7 +107,9 @@ knitr::include_graphics("Figures/procedure_diagram.png")
 
 ## Design and data analysis
 
-We used `r cite_r("r-references.bib")` for all our analyses.
+We had one between-subjects IV with two levels. Participants were randomly allocated to attend the error-free (level 1) or error-full (level 2) version of the lecture. We had one dependent variable of their score on the data skills assignment which could range between 0-100%. 
+
+Data met parametric assumptions and we used a Welch t-test to compare the two groups on their data skills score. We used a two-tailed test as we expected the error-full lecture to produce higher scores, but we were open to the possibility that the error-free lecture could produce higher scores. 
 
 # Results
 
@@ -157,6 +159,9 @@ mock_data <- group_sim(n, A_mean, A_sd, B_mean, B_sd)
 
 # Discussion
 
+# Disclosures
+
+We used `r cite_r("r-references.bib")` for all our analyses.
 
 \newpage
 
