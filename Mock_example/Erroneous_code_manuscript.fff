@@ -1,0 +1,5 @@
+\begin{figure*}[hbt]
+\ifnextchar[{\eatarg}{}
+
+\includegraphics[width=1\linewidth]{Figures/procedure_diagram} \caption{Procedure diagram showing how students were randomly allocated to an error-free or error-full version of a lecture before completing a data skills assignment.}\label{fig:procedure-diagram}
+\end{figure*}

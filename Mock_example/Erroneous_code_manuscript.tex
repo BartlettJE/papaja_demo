@@ -3,7 +3,7 @@
 \PassOptionsToPackage{hyphens}{url}
 %
 \documentclass[
-  man]{apa6}
+  man,floatsintext]{apa6}
 \usepackage{amsmath,amssymb}
 \usepackage{lmodern}
 \usepackage{iftex}
@@ -156,12 +156,6 @@
   }
 {}{\PatchFailed}
 \keywords{learning, R, statistical programming, error-full learning\newline\indent Word count: 1200}
-\DeclareDelayedFloatFlavor{ThreePartTable}{table}
-\DeclareDelayedFloatFlavor{lltable}{table}
-\DeclareDelayedFloatFlavor*{longtable}{table}
-\makeatletter
-\renewcommand{\efloat@iwrite}[1]{\immediate\expandafter\protected@write\csname efloat@post#1\endcsname{}}
-\makeatother
 \usepackage{lineno}
 
 \linenumbers
@@ -220,20 +214,34 @@ We hypothesise that students who complete the error-full lecture will score high
 \hypertarget{participants}{%
 \subsection{Participants}\label{participants}}
 
-Before collecting data, we performed an \emph{a priori} power analysis to calculate how many participants we would need. Hoffman and Elmi (2021) did not report any performance data, so we used Bebermeier and Hagemann (2019) to set our smallest effect size of interest. They investigated the effect of creating statistics exercises based on research article. The researchers found students performed better on a class assignment when they completed these exercises than when students did not complete the exercises (\emph{d} = 0.55). The authors did not comment on the effect size, so we chose a more conservative estimate based on the small telescopes approach (Simonsohn, 2015) for the effect size the original study had 33\% power to detect. Using an effect size of d = 0.38, we aimed to recruit 149 participants per group for an independent samples t-test (\alpha = 0.05, power = 0.90).
+Before collecting data, we performed an \emph{a priori} power analysis to calculate how many participants we would need. Hoffman and Elmi (2021) did not report any performance data, so we used Bebermeier and Hagemann (2019) to set our smallest effect size of interest. They investigated the effect of creating statistics exercises based on research article. The researchers found students performed better on a class assignment when they completed these exercises than when students did not complete the exercises (\emph{d} = 0.55). The authors did not comment on the effect size, so we chose a more conservative estimate based on the small telescopes approach (Simonsohn, 2015) for the effect size the original study had 33\% power to detect. Using an effect size of d = 0.38, we aimed to recruit 149 participants per group for an independent samples t-test (\(\alpha\) = 0.05, power = 0.90).
 
-We finished with two groups of 145 and 130 participants, slightly fewer than our initial target.
+We finished with two groups of 145 and 130 participants (N = 275), slightly fewer than our initial target.
 
 \hypertarget{material}{%
 \subsection{Material}\label{material}}
 
+In the error-free lecture, students heard a one hour presentation on data wrangling, showing how to use Tidyverse functions like mutate, filter, and select.
+
+In the error-full lecture, students heard a one hour presentation on data wrangling, the same as in the error-free group. However, in this group we also guided students through an error interpretation session to demonstrate common errors when using these data wrangling functions.
+
+Both groups of students completed the same data skills assignment on data wrangling where students had to write code to solve problems and debug errors. Scores could range from 0-100.
+
 \hypertarget{procedure}{%
 \subsection{Procedure}\label{procedure}}
 
-\hypertarget{data-analysis}{%
-\subsection{Data analysis}\label{data-analysis}}
+We offered participants an additional bonus lecture outside their normal course curriculum. Students could register interest on their course page and provide informed consent. On sign up, students were randomly allocated to attend the error-free lecture or error-full lecture. In the hour immediately following the lecture, students completed the data skills assignment and were debriefed. We provided students who did not receive the error-full lecture a link to the lecture recording to ensure they received the debugging guidance. We demonstrate the procedure as a diagram in Figure \ref{fig:procedure-diagram}.
 
-We used R (Version 4.1.2; R Core Team, 2022) and the R-packages \emph{dplyr} (Version 1.0.7; Wickham, François, et al., 2022), \emph{forcats} (Version 0.5.1; Wickham, 2021), \emph{ggplot2} (Version 3.3.5; Wickham, 2016), \emph{papaja} (Version 0.1.1; Aust \& Barth, 2022), \emph{purrr} (Version 0.3.4; Henry \& Wickham, 2020), \emph{pwr} (Version 1.3.0; Champely, 2020), \emph{readr} (Version 2.1.0; Wickham, Hester, et al., 2022), \emph{shiny} (Version 1.7.3; Chang et al., 2022), \emph{stringr} (Version 1.4.1; Wickham, 2022), \emph{tibble} (Version 3.1.6; Müller \& Wickham, 2022), \emph{tidyr} (Version 1.1.4; Wickham \& Girlich, 2022), \emph{tidyverse} (Version 1.3.1; Wickham et al., 2019), and \emph{tinylabels} (Version 0.2.3; Barth, 2022) for all our analyses.
+
+
+\begin{figure}
+\includegraphics[width=1\linewidth]{Figures/procedure_diagram} \caption{Procedure diagram showing how students were randomly allocated to an error-free or error-full version of a lecture before completing a data skills assignment.}\label{fig:procedure-diagram}
+\end{figure}
+
+\hypertarget{design-and-data-analysis}{%
+\subsection{Design and data analysis}\label{design-and-data-analysis}}
+
+We used R (Version 4.1.3; R Core Team, 2022) and the R-packages \emph{dplyr} (Version 1.0.10; Wickham, François, et al., 2022), \emph{forcats} (Version 0.5.1; Wickham, 2021), \emph{ggplot2} (Version 3.3.6; Wickham, 2016), \emph{papaja} (Version 0.1.1; Aust \& Barth, 2022), \emph{purrr} (Version 0.3.4; Henry \& Wickham, 2020), \emph{pwr} (Version 1.3.0; Champely, 2020), \emph{readr} (Version 2.1.2; Wickham, Hester, et al., 2022), \emph{shiny} (Version 1.7.3; Chang et al., 2022), \emph{stringr} (Version 1.4.1; Wickham, 2022), \emph{tibble} (Version 3.1.8; Müller \& Wickham, 2022), \emph{tidyr} (Version 1.2.0; Wickham \& Girlich, 2022), \emph{tidyverse} (Version 1.3.2; Wickham et al., 2019), and \emph{tinylabels} (Version 0.2.3; Barth, 2022) for all our analyses.
 
 \hypertarget{results}{%
 \section{Results}\label{results}}
