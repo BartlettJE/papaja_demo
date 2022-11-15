@@ -183,7 +183,7 @@
 
 \authornote{
 
-Enter author note here.
+This demonstration is based on mock data.
 
 The authors made the following contributions. James Bartlett: Conceptualization, Writing - Original Draft Preparation, Writing - Review \& Editing.
 
@@ -194,7 +194,13 @@ Correspondence concerning this article should be addressed to James Bartlett, 62
 \affiliation{\vspace{0.5cm}\textsuperscript{1} University of Glasgow, United Kingdom}
 
 \abstract{%
-Blah blah blah.
+Teaching statistical programming languages like R are key for adopting reproducible data preparation and analysis workflows. However, teaching data skills provides unique challenges such as preparing students to debug coding errors.
+
+We randomly allocated students to complete an error-free (n = 145) or error-full (n = 130) version of a lecture, to investigate if teaching debugging skills improves students performance on a data skills assignment.
+
+Students in the error-full lecture performed significantly better on the data skills assignment than students in the error-free lecture, with a mean improvement of 4.94\%, 95\% CI {[}2.40, 7.49{]}.
+
+Adopting a lecture format that covers both data wrangling and debugging skills has the potential to improve student's understanding of reproducible data preparation and analysis.
 }
 
 
@@ -248,8 +254,50 @@ Data met parametric assumptions and we used a Welch t-test to compare the two gr
 \hypertarget{results}{%
 \section{Results}\label{results}}
 
+\begin{table}[tbp]
+
+\begin{center}
+\begin{threeparttable}
+
+\caption{\label{tab:descriptives-table}Descriptive statistics of data skills assignment for each lecture group.}
+
+\begin{tabular}{lllll}
+\toprule
+Group & \multicolumn{1}{c}{Mean} & \multicolumn{1}{c}{SD} & \multicolumn{1}{c}{Min} & \multicolumn{1}{c}{Max}\\
+\midrule
+Error-Free & 49.94 & 11.03 & 14.91 & 75.80\\
+Error-Full & 54.88 & 10.42 & 24.13 & 92.22\\
+\bottomrule
+\addlinespace
+\end{tabular}
+
+\begin{tablenotes}[para]
+\normalsize{\textit{Note.} Test scores could range from 0-100\%}
+\end{tablenotes}
+
+\end{threeparttable}
+\end{center}
+
+\end{table}
+
+We present the descriptive statistics in Table \ref{tab:descriptives-table} and visually in Figure \ref{fig:violin-plot}. Consistent with our hypothesis, participants in the error-full group scored higher than participants in the error-free group.
+
+
+
+\begin{figure}
+\includegraphics[width=1\linewidth]{Erroneous_code_manuscript_files/figure-latex/violin-plot-1} \caption{Violin and boxplot of the data skills assignment score for the error-free and error-full groups. The central dot shows the mean and SE instead of the median.}\label{fig:violin-plot}
+\end{figure}
+
+Consistent with our hypothesis, a Welch t-test shows that participants in the error-full group produced significantly higher data skills assignment scores than those in the error-free group, \(\Delta M = -4.94\), 95\% CI \([-7.49, -2.40]\), \(t(272.23) = -3.82\), \(p < .001\).
+
 \hypertarget{discussion}{%
 \section{Discussion}\label{discussion}}
+
+We hypothesised that students who experienced an error-full lecture would score higher on a data skills assignment than students who experienced an error-free lecture. Consistent with our prediction, participants in the error-full group scored significantly higher than participants in the error-free group with an almost 5\% increase.
+
+We designed our study to build on Hoffman and Elmi (2021) who compared error-full and error-free SAS lectures. However, they only recruited 18 participants in a pilot study and did not report performance data. We applied their idea to the software R and randomly allocated participants into one of two groups to evaluate the effect of this format on a data skills assignment focusing on data wrangling.
+
+In conclusion, a lecture format that covers both data wrangling and debugging skills has the potential to improve student's understanding of reproducible data preparation and analysis.
 
 \hypertarget{disclosures}{%
 \section{Disclosures}\label{disclosures}}

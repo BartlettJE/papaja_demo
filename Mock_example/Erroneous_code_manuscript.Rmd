@@ -18,10 +18,16 @@ affiliation:
     institution   : "University of Glasgow, United Kingdom"
 
 authornote: |
-  Enter author note here.
+  This demonstration is based on mock data. 
 
 abstract: |
-  Blah blah blah. 
+  Teaching statistical programming languages like R are key for adopting reproducible data preparation and analysis workflows. However, teaching data skills provides unique challenges such as preparing students to debug coding errors. 
+  
+  We randomly allocated students to complete an error-free (n = 145) or error-full (n = 130) version of a lecture, to investigate if teaching debugging skills improves students performance on a data skills assignment. 
+  
+  Students in the error-full lecture performed significantly better on the data skills assignment than students in the error-free lecture, with a mean improvement of 4.94%, 95% CI [2.40, 7.49]. 
+  
+  Adopting a lecture format that covers both data wrangling and debugging skills has the potential to improve student's understanding of reproducible data preparation and analysis.
   
 keywords          : "learning, R, statistical programming, error-full learning"
 wordcount         : "1200"
@@ -150,14 +156,70 @@ group_sim <- function(n, A_mean, A_sd, B_mean, B_sd){
 set.seed(12847) # Based on a random process, so set a seed for reproducibility
 
 mock_data <- group_sim(n, A_mean, A_sd, B_mean, B_sd)
+
+mock_data <- mock_data %>% 
+  mutate(Group = factor(Group))
 ```
 
-```{r mock graph}
+```{r descriptives-table}
+mock_descriptives <- mock_data %>% 
+  group_by(Group) %>% 
+  summarise(Mean = mean(DV),
+            SD = sd(DV),
+            Min = min(DV),
+            Max = max(DV)) %>% 
+  ungroup()
+
+descriptives <- printnum(mock_descriptives)
+
+apa_table(descriptives,
+          caption = "Descriptive statistics of data skills assignment for each lecture group.",
+          note = "Test scores could range from 0-100%")
+```
+
+```{r ttest}
+
+mock_ttest <- t.test(DV ~ Group, 
+                     data = mock_data, 
+                     paired = FALSE)
+
+apa_ttest <- apa_print(mock_ttest)$full_result
 
 ```
 
+We present the descriptive statistics in Table \@ref(tab:descriptives-table) and visually in Figure \@ref(fig:violin-plot). Consistent with our hypothesis, participants in the error-full group scored higher than participants in the error-free group.
+
+(ref:violin-plot-caption) Violin and boxplot of the data skills assignment score for the error-free and error-full groups. The central dot shows the mean and SE instead of the median.  
+
+```{r violin-plot, fig.cap="(ref:violin-plot-caption)", out.width="100%", warning = FALSE}
+
+mock_data %>% 
+  ggplot(aes(x = Group, y = DV, fill = Group)) + 
+  geom_violin() +
+  # remove the median line with fatten = NULL
+  geom_boxplot(width = .2, 
+               fatten = NULL, colour = "black") +
+  stat_summary(fun = "mean", geom = "point") +
+  stat_summary(fun.data = "mean_se", 
+               geom = "errorbar", 
+               width = .1) + 
+  scale_fill_viridis_d(option = "D", begin = 0.3, end = 0.6) + 
+  theme_classic() + 
+  theme(legend.position = "None") + 
+  labs(x = "Lecture Group",
+       y = "Data skills test score (%)")
+
+```
+
+Consistent with our hypothesis, a Welch t-test shows that participants in the error-full group produced significantly higher data skills assignment scores than those in the error-free group, `r apa_ttest`. 
 
 # Discussion
+
+We hypothesised that students who experienced an error-full lecture would score higher on a data skills assignment than students who experienced an error-free lecture. Consistent with our prediction, participants in the error-full group scored significantly higher than participants in the error-free group with an almost 5% increase. 
+
+We designed our study to build on @hoffman_students_2021 who compared error-full and error-free SAS lectures. However, they only recruited 18 participants in a pilot study and did not report performance data. We applied their idea to the software R and randomly allocated participants into one of two groups to evaluate the effect of this format on a data skills assignment focusing on data wrangling. 
+
+In conclusion, a lecture format that covers both data wrangling and debugging skills has the potential to improve student's understanding of reproducible data preparation and analysis. 
 
 # Disclosures
 
