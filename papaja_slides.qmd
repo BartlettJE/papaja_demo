@@ -9,37 +9,37 @@ editor: visual
 
 **Computational reproducibility**
 
-- 31% reproducibility success rate in one journal ([Hardwicke et al., 2018](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6124055/))
+-   31% reproducibility success rate in one journal ([Hardwicke et al., 2018](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6124055/))
 
-- 58% reproducibility success rate in registered reports ([Obels et al., 2020](https://doi.org/10.1177/2515245920918872))
+-   58% reproducibility success rate in registered reports ([Obels et al., 2020](https://doi.org/10.1177/2515245920918872))
 
-**Reporting errors** 
+**Reporting errors**
 
-- 49.6% of articles containined an inconsistency between test statistic, degrees of freedom, and *p*-values ([Nuijten et al., 2016](http://link.springer.com/10.3758/s13428-015-0664-2))
+-   49.6% of articles containined an inconsistency between test statistic, degrees of freedom, and *p*-values ([Nuijten et al., 2016](http://link.springer.com/10.3758/s13428-015-0664-2))
 
 ## What problems are we trying to solve?
 
-**Connection between code and output** 
+**Connection between code and output**
 
-- Even when authors share data and reproducible code, there might not be a clear connection between the code and relevant output in the manuscript (anecdote)
+-   Even when authors share data and reproducible code, there might not be a clear connection between the code and relevant output in the manuscript (anecdote)
 
 **Reproducible manuscripts**
 
-- Potential to avoid these errors as you combine code, results, and prose in one document 
+-   Potential to avoid these errors as you combine code, results, and prose in one document
 
-- When there are errors, there are *reproducible errors*
+-   When there are errors, there are *reproducible errors*
 
-## My journey 
+## My journey
 
 It took me several years and projects to adopt this workflow:
 
-1. Copying results from SPSS output
+1.  Copying results from SPSS output
 
-2. Copying results from R output
+2.  Copying results from R output
 
-3. Using R Markdown to create reproducible results 
+3.  Using R Markdown to create reproducible results
 
-4. Using papaja to write reproducible manuscripts
+4.  Using papaja to write reproducible manuscripts
 
 ## papaja
 
@@ -52,44 +52,45 @@ install.packages("papaja")
 
 In this tutorial, I will walk through:
 
-- YAML options 
+-   YAML options
 
-- Citations/references via a .bib file
+-   Citations/references via a .bib file
 
-- Inline code 
+-   Inline code
 
-- Tables / figures
+-   Tables / figures
 
 ## Mock example: Error-free vs error-full code
 
-- I've created a mock example using papaja and simulated data to show it capabilities
+-   I've created a mock example using papaja and simulated data to show it capabilities
 
-- Building on [Hoffman and Elmi (2021)](https://www.tandfonline.com/doi/abs/10.1080/26939169.2021.1967229): What is the effect of teaching debugging skills on students' data wrangling ability? 
+-   Building on [Hoffman and Elmi (2021)](https://www.tandfonline.com/doi/abs/10.1080/26939169.2021.1967229): What is the effect of teaching debugging skills on students' data wrangling ability?
 
-- Randomly allocate students to an error-full or error-free lecture (IV) and measure performance on a data skills assignment (DV)
+-   Randomly allocate students to an error-full or error-free lecture (IV) and measure performance on a data skills assignment (DV)
 
 ## YAML options
 
 ### Author information
 
-- Name and affiliation for each author, but only one corresponding author
+-   Name and affiliation for each author, but only one corresponding author
 
-- Option to include contributorship roles, such as [CRediT](https://www.elsevier.com/authors/policies-and-guidelines/credit-author-statement). 
+-   Option to include contributorship roles, such as [CRediT](https://www.elsevier.com/authors/policies-and-guidelines/credit-author-statement).
 
-````
----
-author: 
-  - name          : "James Bartlett"
-    affiliation   : "1"
-    corresponding : yes    # Define only one corresponding author
-    address       : "62 Hillhead Street, Glasgow"
-    email         : "james.bartlett@glasgow.ac.uk"
-    role:         
-      - "Conceptualization"
-      - "Writing - Original Draft Preparation"
-      - "Writing - Review & Editing"
----
-````
+```{=html}
+<!-- -->
+```
+    ---
+    author: 
+      - name          : "James Bartlett"
+        affiliation   : "1"
+        corresponding : yes    # Define only one corresponding author
+        address       : "62 Hillhead Street, Glasgow"
+        email         : "james.bartlett@glasgow.ac.uk"
+        role:         
+          - "Conceptualization"
+          - "Writing - Original Draft Preparation"
+          - "Writing - Review & Editing"
+    ---
 
 ## YAML options
 
@@ -100,7 +101,6 @@ library(tidyverse)
 library(pwr)
 library(papaja)
 ```
-
 
 ### Adding a .bib file
 
@@ -113,11 +113,13 @@ I recommend Zotero as a reference manager: <https://www.zotero.org/>
 -   Format BibTeX and OK
 
 -   Save as in your document working directory
-````
-    ---
-    bibliography      : ["references.bib", "r-references.bib"]
-    ---
-````
+
+```{=html}
+<!-- -->
+```
+        ---
+        bibliography      : ["references.bib", "r-references.bib"]
+        ---
 
 ## YAML options
 
@@ -129,11 +131,9 @@ I recommend Zotero as a reference manager: <https://www.zotero.org/>
 
 E.g., APA 7th edition
 
-````
-    ---
-    csl               : apa7.csl
-    ---
-````
+        ---
+        csl               : apa7.csl
+        ---
 
 ## YAML options
 
@@ -145,11 +145,9 @@ E.g., APA 7th edition
 
 E.g., Vancouver
 
-````
-    ---
-    csl               : vancouver.csl
-    ---
-````
+        ---
+        csl               : vancouver.csl
+        ---
 
 ## YAML options
 
@@ -157,57 +155,57 @@ E.g., Vancouver
 
 ::: columns
 ::: {.column width="50%"}
-APA 7th edition
-![](Screenshots/apa7.png)
+APA 7th edition ![](Screenshots/apa7.png)
 :::
 
 ::: {.column width="50%"}
-Vancouver
-![](Screenshots/vancouver.png)
+Vancouver ![](Screenshots/vancouver.png)
 :::
-
 :::
 
 ## YAML options
 
 ### Manuscript options
 
-Depending on the journal submission guidelines, you can change different features like: 
+Depending on the journal submission guidelines, you can change different features like:
 
-- Floating figures/tables in-text or at the end
+-   Floating figures/tables in-text or at the end
 
-- Being kind to your reviewer and adding line numbers
+-   Being kind to your reviewer and adding line numbers
 
-- Masking the manuscript and omitting author information 
+-   Masking the manuscript and omitting author information
 
-````
----
-floatsintext      : yes # Figures and tables floating or at the end?
-linenumbers       : yes # Add line numbers? 
-draft             : no # Add draft watermark on every page? 
-mask              : no # Hide author details for blind submission? 
----
-````
+```{=html}
+<!-- -->
+```
+    ---
+    floatsintext      : yes # Figures and tables floating or at the end?
+    linenumbers       : yes # Add line numbers? 
+    draft             : no # Add draft watermark on every page? 
+    mask              : no # Hide author details for blind submission? 
+    ---
 
 ## YAML options
 
 ### Output options
 
-- The default output with the best functionality for the knitted document is a PDF:
+-   The default output with the best functionality for the knitted document is a PDF:
 
-````
----
-output            : papaja::apa6_pdf 
----
-````
+```{=html}
+<!-- -->
+```
+    ---
+    output            : papaja::apa6_pdf 
+    ---
 
-- However, you can also knit a Word document if you need it:
+-   However, you can also knit a Word document if you need it:
 
-````
----
-output            : papaja::apa6_word
----
-````
+```{=html}
+<!-- -->
+```
+    ---
+    output            : papaja::apa6_word
+    ---
 
 ## Citations and references
 
@@ -224,9 +222,7 @@ devtools::install_github("crsh/citr")
 :::
 
 ::: {.column width="40%"}
-
 ![](Screenshots/citr.png)
-
 :::
 :::
 
@@ -263,7 +259,7 @@ Using an effect size of d = `r round(small_telescopes, 2)`, we aimed to recruit 
 
 Behind the scenes...
 
-Using an effect size of d = ``'r small_telescopes'``, we aimed to recruit ``'r sample_size'`` participants per group for an independent samples t-test (``'$\alpha$'`` = ``'r alpha'``, power = ``'r power'``).
+Using an effect size of d = `'r small_telescopes'`, we aimed to recruit `'r sample_size'` participants per group for an independent samples t-test (`'$\alpha$'` = `'r alpha'`, power = `'r power'`).
 
 ## Adding external images
 
@@ -273,7 +269,7 @@ papaja supports adding external images via knitr: <http://frederikaust.com/papaj
 knitr::include_graphics("Screenshots/procedure_diagram.png")
 ```
 
-## Figures 
+## Figures
 
 ```{r mock data, echo=FALSE}
 # Create mock data for examples
@@ -339,7 +335,7 @@ mock_data %>%
        y = "Data skills test score (%)")
 ```
 
-## Figures 
+## Figures
 
 Behind the scenes...
 
@@ -361,24 +357,23 @@ mock_data %>%
        y = "Data skills test score (%)")
 ```
 
-## Figures 
+## Figures
 
 In the code chunk settings, you can do things like reference a caption and control the size of figures
-````
-Figure \@ref(fig:violin-plot) shows...
 
-(ref:violin-plot-caption) Violin and boxplot of... 
+    Figure \@ref(fig:violin-plot) shows...
 
-```{{r violin-plot, fig.cap="(ref:violin-plot-caption)", out.width="100%"}}
+    (ref:violin-plot-caption) Violin and boxplot of... 
 
-mock_data %>% 
-  ggplot(aes(x = Group, y = DV, fill = Group)) + 
-  geom_violin()...
-  
-```
-````
+    ```{{r violin-plot, fig.cap="(ref:violin-plot-caption)", out.width="100%"}}
 
-## Tables 
+    mock_data %>% 
+      ggplot(aes(x = Group, y = DV, fill = Group)) + 
+      geom_violin()...
+      
+    ```
+
+## Tables
 
 papaja has some helper functions for creating APA style tables (which don't play nicely with html...): <http://frederikaust.com/papaja_man/reporting.html#tables>
 
@@ -398,7 +393,7 @@ apa_table(descriptives,
           note = "Test scores could range from 0-100%")
 ```
 
-## Tables 
+## Tables
 
 Behind the scenes...
 
@@ -435,7 +430,7 @@ mock_ttest <- t.test(DV ~ Group,
 apa_ttest <- apa_print(mock_ttest)$full_result
 ```
 
-"Consistent with our hypothesis, a Welch t-test shows that participants in the error-full group produced significantly higher data skills assignment scores than those in the error-free group, `r apa_ttest`." 
+"Consistent with our hypothesis, a Welch t-test shows that participants in the error-full group produced significantly higher data skills assignment scores than those in the error-free group, `r apa_ttest`."
 
 ## Inline code
 
@@ -453,12 +448,12 @@ mock_ttest <- t.test(DV ~ Group,
 apa_ttest <- apa_print(mock_ttest)$full_result
 ```
 
-"Consistent with our hypothesis, a Welch t-test shows that participants in the error-full group produced significantly higher data skills assignment scores than those in the error-free group, ``'r apa_ttest'``." 
+"Consistent with our hypothesis, a Welch t-test shows that participants in the error-full group produced significantly higher data skills assignment scores than those in the error-free group, `'r apa_ttest'`."
 
-## Where to learn more? 
+## Where to learn more?
 
-- Slides and folder containing mock example available on Github: <https://github.com/BartlettJE/papaja_demo>
+-   Slides and folder containing mock example available on Github: <https://github.com/BartlettJE/papaja_demo>
 
-- Full example from my recent publication: <https://osf.io/gm4jr/>
+-   Full example from my recent publication: <https://osf.io/gm4jr/>
 
-- papaja manual (section 7 includes published manuscripts using papaja): <http://frederikaust.com/papaja_man/>
+-   papaja manual (section 7 includes published manuscripts using papaja): <http://frederikaust.com/papaja_man/>
