@@ -4,7 +4,7 @@ shorttitle        : "Erroneous R code"
 
 author: 
   - name          : "James Bartlett"
-    affiliation   : "1"
+    affiliation   : "*"
     corresponding : yes    # Define only one corresponding author
     address       : "62 Hillhead Street, Glasgow"
     email         : "james.bartlett@glasgow.ac.uk"
@@ -14,7 +14,7 @@ author:
       - "Writing - Review & Editing"
 
 affiliation:
-  - id            : "1"
+  - id            : "*"
     institution   : "University of Glasgow, United Kingdom"
 
 authornote: |
