@@ -4,7 +4,7 @@ shorttitle        : "Erroneous R code"
 
 author: 
   - name          : "James Bartlett"
-    affiliation   : "*"
+    affiliation   : "1"
     corresponding : yes    # Define only one corresponding author
     address       : "62 Hillhead Street, Glasgow"
     email         : "james.bartlett@glasgow.ac.uk"
@@ -14,18 +14,19 @@ author:
       - "Writing - Review & Editing"
 
 affiliation:
-  - id            : "*"
+  - id            : "1"
     institution   : "University of Glasgow, United Kingdom"
 
 authornote: |
   This demonstration is based on mock data. 
 
+# In the abstract, I have referenced the effect size using (ref:ttest) which is defined on line 213
 abstract: |
   Teaching statistical programming languages like R are key for adopting reproducible data preparation and analysis workflows. However, teaching data skills provides unique challenges such as preparing students to debug coding errors. 
   
   We randomly allocated students to complete an error-free (n = 145) or error-full (n = 130) version of a lecture, to investigate if teaching debugging skills improves students performance on a data skills assignment. 
   
-  Students in the error-full lecture performed significantly better on the data skills assignment than students in the error-free lecture, with a mean improvement of 4.94%, 95% CI [2.40, 7.49]. 
+  Students in the error-full lecture performed significantly better on the data skills assignment than students in the error-free lecture, (ref:ttest).
   
   Adopting a lecture format that covers both data wrangling and debugging skills has the potential to improve student's understanding of reproducible data preparation and analysis.
   
@@ -111,7 +112,7 @@ Both groups of students completed the same data skills assignment on data wrangl
 
 We offered participants an additional bonus lecture outside their normal course curriculum. Students could register interest on their course page and provide informed consent. On sign up, students were randomly allocated to attend the error-free lecture or error-full lecture. In the hour immediately following the lecture, students completed the data skills assignment and were debriefed. We provided students who did not receive the error-full lecture a link to the lecture recording to ensure they received the debugging guidance. We demonstrate the procedure as a diagram in Figure \@ref(fig:procedure-diagram).
 
-(ref:procedure-diagram-caption) Procedure diagram showing how students were randomly allocated to an error-free or error-full version of a lecture before completing a data skills assignment. 
+(ref:procedure-diagram-caption) Procedure diagram showing how students were randomly allocated to an error-free or error-full version of a lecture before completing a data skills assignment.
 
 ```{r procedure-diagram, fig.cap="(ref:procedure-diagram-caption)", out.width="100%"}
 # Knitr function to include an image from a given directory
@@ -203,11 +204,18 @@ mock_ttest <- t.test(DV ~ Group,
 # papaja helper function of printing results in APA
 apa_ttest <- apa_print(mock_ttest)$full_result
 
+effect_size <- apa_print(mock_ttest)$estimate
+
+# Below, I have created a reference for the effect size object using inline code
+# This mean I can reference it in the abstract to make sure the effect size is reproducible and I am not copying and pasting there
+# As the abstract is defined in the YAML, we have to go through these steps or you would get an error since the code is evaluated top to bottom in the remaining R Markdown part 
 ```
+
+(ref:ttest) `r effect_size`
 
 We present the descriptive statistics in Table \@ref(tab:descriptives-table) and visually in Figure \@ref(fig:violin-plot). Consistent with our hypothesis, participants in the error-full group scored higher than participants in the error-free group.
 
-(ref:violin-plot-caption) Violin and boxplot of the data skills assignment score for the error-free and error-full groups. The central dot shows the mean and SE instead of the median.  
+(ref:violin-plot-caption) Violin and boxplot of the data skills assignment score for the error-free and error-full groups. The central dot shows the mean and SE instead of the median.
 
 ```{r violin-plot, fig.cap="(ref:violin-plot-caption)", out.width="100%", warning = FALSE}
 
