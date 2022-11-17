@@ -6,9 +6,9 @@ Click Code > Download ZIP to save all files.
 
 ## Workshop slides
 
-In the top-level of the directory are the slides for the workshop. You can render the slides with the quarto presentation file. It should knit providing all these files are in the same working directory including Screenshots as a folder.
+You can view the the slides as a [HTML file rendered online here](https://bartlettje.github.io/papaja_demo/papaja_slides.html). 
 
-You were supposed to be able to open the slides using the papaja_slides.html file and it appear in your web browser, but it looks like it loses the formatting. So, I have also saved the rendered slides as a PDF, so you can see them in all their glory. 
+In the top-level of the directory are the slides for the workshop. You can render the slides with the quarto presentation file. It should knit providing all these files are in the same working directory including Screenshots as a folder.
 
 ## Mock example
 
