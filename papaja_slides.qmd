@@ -1,7 +1,9 @@
 ---
 title: "APA-style manuscripts with RMarkdown and papaja"
 author: "Dr James Bartlett"
-format: revealjs
+format: 
+  revealjs:
+      embed-resources: true
 editor: visual
 ---
 
@@ -76,9 +78,8 @@ In this tutorial, I will walk through:
 
 -   Option to include contributorship roles, such as [CRediT](https://www.elsevier.com/authors/policies-and-guidelines/credit-author-statement).
 
-```{=html}
 <!-- -->
-```
+
     ---
     author: 
       - name          : "James Bartlett"
@@ -114,9 +115,8 @@ I recommend Zotero as a reference manager: <https://www.zotero.org/>
 
 -   Save as in your document working directory
 
-```{=html}
 <!-- -->
-```
+
         ---
         bibliography      : ["references.bib", "r-references.bib"]
         ---
@@ -175,9 +175,8 @@ Depending on the journal submission guidelines, you can change different feature
 
 -   Masking the manuscript and omitting author information
 
-```{=html}
 <!-- -->
-```
+
     ---
     floatsintext      : yes # Figures and tables floating or at the end?
     linenumbers       : yes # Add line numbers? 
@@ -191,18 +190,16 @@ Depending on the journal submission guidelines, you can change different feature
 
 -   The default output with the best functionality for the knitted document is a PDF:
 
-```{=html}
 <!-- -->
-```
+
     ---
     output            : papaja::apa6_pdf 
     ---
 
 -   However, you can also knit a Word document if you need it:
 
-```{=html}
 <!-- -->
-```
+
     ---
     output            : papaja::apa6_word
     ---
