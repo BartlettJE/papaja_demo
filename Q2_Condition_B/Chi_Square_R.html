@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.36">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Applying Chi-Square to Categorical Data Tutorial</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="Chi_Square_R_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Chi_Square_R_files/libs/quarto-html/quarto.js"></script>
+<script src="Chi_Square_R_files/libs/quarto-html/popper.min.js"></script>
+<script src="Chi_Square_R_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Chi_Square_R_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Chi_Square_R_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Chi_Square_R_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Chi_Square_R_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Chi_Square_R_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Chi_Square_R_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#one-sample-chi-square" id="toc-one-sample-chi-square" class="nav-link" data-scroll-target="#one-sample-chi-square">One-Sample Chi-Square</a>
+  <ul class="collapse">
+  <li><a href="#overview-and-assumptions" id="toc-overview-and-assumptions" class="nav-link" data-scroll-target="#overview-and-assumptions">Overview and assumptions</a>
+  <ul class="collapse">
+  <li><a href="#chi-square-chi2-look-up-table" id="toc-chi-square-chi2-look-up-table" class="nav-link" data-scroll-target="#chi-square-chi2-look-up-table">Chi-Square (<span class="math inline">\(\chi^2\)</span>) Look-up Table</a></li>
+  </ul></li>
+  <li><a href="#calculating-in-r" id="toc-calculating-in-r" class="nav-link" data-scroll-target="#calculating-in-r">Calculating in R</a>
+  <ul class="collapse">
+  <li><a href="#wrangling-a-frequency-table" id="toc-wrangling-a-frequency-table" class="nav-link" data-scroll-target="#wrangling-a-frequency-table">Wrangling a frequency table</a></li>
+  <li><a href="#entering-data-as-a-frequency-table" id="toc-entering-data-as-a-frequency-table" class="nav-link" data-scroll-target="#entering-data-as-a-frequency-table">Entering data as a frequency table</a></li>
+  <li><a href="#chi-square-function-in-r" id="toc-chi-square-function-in-r" class="nav-link" data-scroll-target="#chi-square-function-in-r">Chi-Square function in R</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#cross-tabulation-chi-square" id="toc-cross-tabulation-chi-square" class="nav-link" data-scroll-target="#cross-tabulation-chi-square">Cross-Tabulation Chi-Square</a>
+  <ul class="collapse">
+  <li><a href="#overview-and-assumptions-1" id="toc-overview-and-assumptions-1" class="nav-link" data-scroll-target="#overview-and-assumptions-1">Overview and assumptions</a>
+  <ul class="collapse">
+  <li><a href="#chi-square-chi2-look-up-table-1" id="toc-chi-square-chi2-look-up-table-1" class="nav-link" data-scroll-target="#chi-square-chi2-look-up-table-1">Chi-Square (<span class="math inline">\(\chi^2\)</span>) Look-up Table</a></li>
+  </ul></li>
+  <li><a href="#calculating-in-r-1" id="toc-calculating-in-r-1" class="nav-link" data-scroll-target="#calculating-in-r-1">Calculating in R</a>
+  <ul class="collapse">
+  <li><a href="#wrangling-a-frequency-table-1" id="toc-wrangling-a-frequency-table-1" class="nav-link" data-scroll-target="#wrangling-a-frequency-table-1">Wrangling a frequency table</a></li>
+  <li><a href="#enter-data-as-a-frequency-table" id="toc-enter-data-as-a-frequency-table" class="nav-link" data-scroll-target="#enter-data-as-a-frequency-table">Enter data as a frequency table</a></li>
+  <li><a href="#chi-square-function-in-r-1" id="toc-chi-square-function-in-r-1" class="nav-link" data-scroll-target="#chi-square-function-in-r-1">Chi-Square function in R</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Applying Chi-Square to Categorical Data Tutorial</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>Many of the statistical tests you learn about in psychology research methods focus on continuous outcomes. While many measures capture continuous data, that is not the only way to quantify human behaviour. Imagine you performed an observational study where you coded for whether a baby exhibited one type of behaviour or another. This would represent categorical or nominal data and would not be suitable to use in something like a t-test. In this tutorial, you will learn about applying the <strong>Chi-Square test of independence</strong> to categorical outcomes.</p>
+<p>When analysing categorical data, the most informative summary statistic is the mode. We can calculate the frequency of each level or category in the variable, and the most frequent is our modal value. This means a bar plot is also the most direct way of summarising the data as they are designed to show the frequency of different categories. For example, in the <code>mtcars</code> data set, we can plot the transmission type of cars included in the 1974 edition of <em>Motor Trend</em> magazine. 19 were automatic and 13 were manual, where the automatic cars was the modal category. This shows how we can summarise categorical data.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="Chi_Square_R_files/figure-html/firstbarplot-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>The Chi-Square (<span class="math inline">\(\chi^2\)</span>) tests whether there is an association in categorical variables. A <strong>one-sample Chi-Square</strong> can be applied to two or more categories of a single variable, whereas a <strong>cross-tabulation Chi-Square</strong> can be applied to two or more categorical variables, each containing two or more levels. We are interested in whether the observed categorical frequency distribution differs to what we would expect assuming there was no association.</p>
+<p>In the following tutorial, we will demonstrate how to conduct a one-sample and cross-tabulation Chi-Square test in R. We will first explain the logic and assumptions behind each test, then how you can calculate the test in R and report your findings.</p>
+<p>We assume you have a basic understanding of R as we are focusing on the data preparation and analysis steps, rather than explaining the R language, but that you have never performed a Chi-Square test in R before. We also assume that you are familiar with the null hypothesis significance testing framework (NHST) for statistical inference.</p>
+<p>To follow this tutorial, you only need the <code>tidyverse</code> collection of packages loaded for wrangling and plotting functions.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="one-sample-chi-square" class="level1">
+<h1>One-Sample Chi-Square</h1>
+<section id="overview-and-assumptions" class="level2">
+<h2 class="anchored" data-anchor-id="overview-and-assumptions">Overview and assumptions</h2>
+<p>In the <strong>one-sample Chi-Square</strong> test, you have a single categorical variable with two or more levels. For the test’s assumptions, the data should also be independent, meaning each participant or case provides just one observation. Chi-Square tests are not designed for repeated measures data. There is an alternative called McNemar’s test that is designed for repeated measures data, but we will not be covering this test here.</p>
+<p>We start with <strong>observed values</strong> which are your data. For example, imagine you conducted an observational study where you recorded whether people passing in the street returned a smile or not. You recorded 25 people who returned a smile and 37 people who did not return a smile. These are your observed values. We compare these to our <strong>expected values</strong> which is what we would expect if there was equal likelihood of returning a smile or not: 31 and 31.</p>
+<p>We then apply null hypothesis significance testing logic to compare your observed values to your expected values. Chi-Square is the test statistic that represents this process. The larger the difference between your observed and expected values, the larger the test statistic and the more likely the test will be statistically significant (assuming the sample size remained the same).</p>
+<p>Traditionally, you would check a look-up table for the intersection between your Chi-Square test statistic and the degrees of freedom. For the one-sample Chi-Square, the degrees of freedom are <span class="math inline">\(k - 1\)</span>, where k means the number of categories, which would be 1 in this scenario (2 - 1). If your Chi-Square test statistic is equal to or greater than the critical value for your alpha (traditionally <span class="math inline">\(\alpha\)</span> = .05), then you would reject the null hypothesis and conclude the test is statistically significant. If your test statistic is smaller than the critical value, then you would not reject the null hypothesis and the test would not be statistically significant.</p>
+<p>For a selection of degrees of freedom, the critical values are produced below. For our example, it corresponds to a Chi-Square value of 2.32 (which we will verify shortly). Since we have 1 degrees of freedom, the critical value for our Chi-Square is 3.84. Since our Chi-Square is smaller than the critical value, there is not a statistically significant association at <span class="math inline">\(\alpha\)</span> = .05.</p>
+<section id="chi-square-chi2-look-up-table" class="level3">
+<h3 class="anchored" data-anchor-id="chi-square-chi2-look-up-table">Chi-Square (<span class="math inline">\(\chi^2\)</span>) Look-up Table</h3>
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">df</th>
+<th style="text-align: center;"><span class="math inline">\(\alpha = .05\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">3.841</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">5.991</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">7.815</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">9.488</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">11.07</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">12.592</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">14.067</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">15.507</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">9</td>
+<td style="text-align: center;">16.919</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">18.307</td>
+</tr>
+</tbody>
+</table>
+<p>Now we have computers and statistics software, we do not need to look at a critical values table, R will directly calculate the <em>p</em>-value for your test statistic and degrees of freedom. You then interpret whether the <em>p</em>-value is smaller or larger than your alpha, and conclude whether the test is statistically significant or not.</p>
+</section>
+</section>
+<section id="calculating-in-r" class="level2">
+<h2 class="anchored" data-anchor-id="calculating-in-r">Calculating in R</h2>
+<p>Now you understand the logic behind the test, we can demonstrate how you perform the one-sample Chi-Square in R.</p>
+<p>There are two main ways you will have data to work with. The first is raw values of observations, such as when you have a complete data set and one column represents a categorical variable with two or more levels. The second is when you have a table of frequencies for each level of your categorical variable. To apply the Chi-Square, you first need a frequency table to work with, so we will demonstrate the wrangling process in case you are starting with raw values.</p>
+<section id="wrangling-a-frequency-table" class="level3">
+<h3 class="anchored" data-anchor-id="wrangling-a-frequency-table">Wrangling a frequency table</h3>
+<p>If you are working with raw data, you first need to arrange your categories into a frequency table. Let us create some mock data to work from using the smile example.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>Smiles <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">ID =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">62</span>,</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">response =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Smile"</span>, <span class="st">"No Smile"</span>), <span class="co"># Our two categories</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>                                    <span class="fu">c</span>(<span class="dv">25</span>, <span class="dv">37</span>))) <span class="co"># Repeat smile 25 times, no smile 37 times</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Smiles)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  ID response
+1  1    Smile
+2  2    Smile
+3  3    Smile
+4  4    Smile
+5  5    Smile
+6  6    Smile</code></pre>
+</div>
+</div>
+<p>We created 62 rows of data, 25 for participants who returned a smile, and 37 for those who did not return a smile. The next step is to calculate the frequency of each category.</p>
+<p>We can easily calculate the frequency by isolating the response variable for our categories, and applying the <code>table()</code> function from the base R set of functions. This function creates a contingency table of all the variables you provide, which will scale nicely once we turn to the cross-tabulation Chi-Square later. With one variable, it will just count how many observations of each category there are.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>Smiles_frequency <span class="ot">&lt;-</span> Smiles <span class="sc">%&gt;%</span> </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(response) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">table</span>()</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>Smiles_frequency</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>.
+No Smile    Smile 
+      37       25 </code></pre>
+</div>
+</div>
+</section>
+<section id="entering-data-as-a-frequency-table" class="level3">
+<h3 class="anchored" data-anchor-id="entering-data-as-a-frequency-table">Entering data as a frequency table</h3>
+<p>Alternatively, you might immediately start with a frequency table if you do not have access to the raw data. In this case, you can directly enter the values for each category. There are different ways of entering data, but the most direct is entering values as a matrix and adding informative names.</p>
+<p>In the code below, we first save a matrix with the frequencies for each category. The other argument controls how to organise the matrix like how many columns it has.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>Smiles_frequency <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">25</span>, <span class="dv">37</span>), <span class="co"># Frequency values for each category</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>                           <span class="at">ncol =</span> <span class="dv">2</span>, <span class="co"># 2 columns, so the data are not in one column</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>                           <span class="at">byrow =</span> <span class="cn">TRUE</span>) <span class="co"># Enter the values one row at a time</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co"># For clarity, add names to each column</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(Smiles_frequency) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Smile"</span>, <span class="st">"No Smile"</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>Smiles_frequency</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     Smile No Smile
+[1,]    25       37</code></pre>
+</div>
+</div>
+</section>
+<section id="chi-square-function-in-r" class="level3">
+<h3 class="anchored" data-anchor-id="chi-square-function-in-r">Chi-Square function in R</h3>
+<p>No matter which method you used to enter your data, it will be in the same form and ready to analyse. R comes with a built-in function for applying the Chi-Square test called <code>chisq.test()</code>. All you need to do is enter your frequency object you created before.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chisq.test</span>(Smiles_frequency)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Chi-squared test for given probabilities
+
+data:  Smiles_frequency
+X-squared = 2.3226, df = 1, p-value = 0.1275</code></pre>
+</div>
+</div>
+<p>To break down the output, the function confirms the data source you used. You get the Chi-Square value, degrees of freedom, and the <em>p</em>-value. Reassuringly, all these values correspond with what we reported in the overview. There is not a statistically significant association here and we cannot reject the null hypothesis. If you want to communicate the results in a report, the standardised APA format is:</p>
+<div class="cell">
+
+</div>
+<p><span class="math inline">\(\chi^2\)</span> (1) = 2.32, <em>p</em> = .128.</p>
+<p>For any analysis, data visualisation is important and for a Chi-Square, a bar plot is the most appropriate choice to show the frequency of values across different categories. For this data set, you can use <code>ggplot2</code> to create a bar plot showing the frequency of each smile observation.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>Smiles <span class="sc">%&gt;%</span> </span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> response)) <span class="sc">+</span> </span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>() <span class="sc">+</span> </span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span> </span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">40</span>), <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">40</span>, <span class="dv">5</span>), <span class="at">name =</span> <span class="st">"Frequency"</span>) <span class="sc">+</span> </span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_discrete</span>(<span class="at">name =</span> <span class="st">"Type of Facial Response"</span>) <span class="sc">+</span> </span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"The Frequency of Whether Participants Returned a Smile or Not."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Chi_Square_R_files/figure-html/smile%20bar%20plot-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>There is also extra information available in the function which can be helpful for a final assumption we have not covered so far. To work as intended, the expected values must be higher than 5. If the expected value is less than 5 for one of the cells/categories, you will receive a warning that the results may not be accurate. There are different guidelines around how many cells with fewer than 5 expected values are too few, but one recommendation is at least 80% of the cells should have 5 or more expected values. For example, we can check the expected values for the current example:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chisq.test</span>(Smiles_frequency)<span class="sc">$</span>expected</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 31 31</code></pre>
+</div>
+</div>
+<p>To demonstrate what the warning looks like, we will need to amend the data set so there are fewer than 5 expected values.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>Smiles_frequency <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">7</span>), <span class="co"># Smaller number of observed values</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>                           <span class="at">ncol =</span> <span class="dv">2</span>,</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>                           <span class="at">byrow =</span> <span class="cn">TRUE</span>) </span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(Smiles_frequency) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Smile"</span>, <span class="st">"No Smile"</span>)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="fu">chisq.test</span>(Smiles_frequency)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in chisq.test(Smiles_frequency): Chi-squared approximation may be
+incorrect</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Chi-squared test for given probabilities
+
+data:  Smiles_frequency
+X-squared = 2.7778, df = 1, p-value = 0.09558</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chisq.test</span>(Smiles_frequency)<span class="sc">$</span>expected</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in chisq.test(Smiles_frequency): Chi-squared approximation may be
+incorrect</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4.5 4.5</code></pre>
+</div>
+</div>
+<p>This shows how when you have fewer than 5 expected values, you receive the warning “Chi-squared approximation may be incorrect”. This highlights how the test statistic and <em>p</em>-value may be inaccurate when there is too little data to work with.</p>
+<p>When it comes to the cross-tabulation Chi-Square, there is an alternative test designed for small samples called Fisher’s exact test, but you need at least 2 rows and columns for it to work. Therefore, for the one-sample Chi-Square, it essentially presents a guide for the minimal sample size to work with. We will return to Fisher’s exact test as an alternative at the end of the next section.</p>
+</section>
+</section>
+</section>
+<section id="cross-tabulation-chi-square" class="level1">
+<h1>Cross-Tabulation Chi-Square</h1>
+<section id="overview-and-assumptions-1" class="level2">
+<h2 class="anchored" data-anchor-id="overview-and-assumptions-1">Overview and assumptions</h2>
+<p>Now you have worked through the one-sample Chi-Square, it is time to demonstrate how it scales up. In the <strong>cross-tabulation Chi-Square</strong> test, you have a two or more categorical variables, each with two or more levels. For the test’s assumptions, the data should be independent, meaning each participant or case provides just one observation.</p>
+<p>For this example, we will add a variable to our observational study. Imagine in addition to recording whether people passing in the street returned a smile or not, we also recorded the weather on testing days. We recorded whether it was rainy or sunny, and we want to know whether there is an association between the weather and people’s facial responses. This represents a 2x2 design as we have two categorical variables, each with two levels.</p>
+<p>For our <strong>observed values</strong>, on a rainy day we recorded 25 people returning a smile and 37 people not returning a smile. On a sunny day, we then recorded 50 people returning a smile and 33 not returning a smile. The cross-tabulation Chi-Square still works by comparing our observed values to our <strong>expected values</strong>. For this example, they are 32.07, 29.93, 42.93, and 40.07 respectively. Calculating the expected values are a little more involved than the one-sample Chi-Square, so we will verify the values later in the tutorial and focus on the overall logic for now.</p>
+<p>We then apply null hypothesis significance testing logic to compare your observed values to your expected values. Chi-Square is the test statistic that represents this process. Traditionally, you would check a look-up table for the intersection between your Chi-Square test statistic and the degrees of freedom.</p>
+<p>For the cross-tabulation Chi-Square, the degrees of freedom are:</p>
+<p><span class="math display">\[df = (Rows - 1) \times (Columns - 1)\]</span></p>
+<p>Rows are the number of categories for one variable and columns for the number of categories in your other variable. In this example, the value for the degrees of freedom is 1 (2-1 x 2-1 = 1). If your Chi-Square test statistic is equal to or greater than the critical value for your alpha (traditionally <span class="math inline">\(\alpha\)</span> = .05), then you would reject the null hypothesis and conclude the test is statistically significant. If your test statistic is smaller than the critical value, then you would not reject the null hypothesis and the test would not be statistically significant.</p>
+<p>For our example, it corresponds to a Chi-Square value of 5.64 (which we will verify shortly). Since we have 1 degrees of freedom, the critical value for our Chi-Square is 3.84 and we have reproduced a truncated version of the Chi-Square look-up table below. Since our Chi-Square is larger than the critical value, there is a statistically significant association at <span class="math inline">\(\alpha\)</span> = .05 and we can reject the null hypothesis.</p>
+<section id="chi-square-chi2-look-up-table-1" class="level3">
+<h3 class="anchored" data-anchor-id="chi-square-chi2-look-up-table-1">Chi-Square (<span class="math inline">\(\chi^2\)</span>) Look-up Table</h3>
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">df</th>
+<th style="text-align: center;"><span class="math inline">\(\alpha = .05\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">3.841</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">5.991</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">7.815</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">9.488</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">11.07</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="calculating-in-r-1" class="level2">
+<h2 class="anchored" data-anchor-id="calculating-in-r-1">Calculating in R</h2>
+<p>Now you understand the logic behind the test, we can demonstrate how you perform the cross-tabulation Chi-Square in R. As before, there are two main ways you can enter data, either as raw values of observations or a table of frequencies. We will demonstrate both processes to prepare you for any kind of categorical data you are working with.</p>
+<section id="wrangling-a-frequency-table-1" class="level3">
+<h3 class="anchored" data-anchor-id="wrangling-a-frequency-table-1">Wrangling a frequency table</h3>
+<p>If you are working with raw data, you first need to arrange your categories into a frequency table. To create our extended smile and weather design, its a slightly longer process to create the mock data.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Outline categories and counts </span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>categories <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Smile_Sunny"</span>, <span class="st">"Smile_Rainy"</span>, <span class="st">"No Smile_Sunny"</span>, <span class="st">"No Smile_Rainy"</span>)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>counts <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">50</span>, <span class="dv">25</span>, <span class="dv">33</span>, <span class="dv">37</span>)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>Smile_weather <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">ID =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">sum</span>(counts), <span class="co"># 1 to the sum of the counts for unique observations</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>                     <span class="at">response =</span> <span class="fu">rep</span>(categories, <span class="co"># Repeat each category </span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>                                    counts)) <span class="co"># By each count</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Separate response into two categorical variables</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>Smile_weather <span class="ot">&lt;-</span> Smile_weather <span class="sc">%&gt;%</span> </span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(<span class="at">col =</span> response, <span class="co"># Split the response variable</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>           <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"Response"</span>, <span class="st">"Weather"</span>), <span class="co"># Into two variables of response and weather</span></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>           <span class="at">sep =</span> <span class="st">"_"</span>) <span class="co"># Separate when it sees an underscore _ </span></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Smile_weather)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  ID Response Weather
+1  1    Smile   Sunny
+2  2    Smile   Sunny
+3  3    Smile   Sunny
+4  4    Smile   Sunny
+5  5    Smile   Sunny
+6  6    Smile   Sunny</code></pre>
+</div>
+</div>
+<p>We created 145 rows of data, 50 for those smiling in the sun, 25 for smiling in the rain, 33 not smiling in the sun, and 37 not smiling in the rain. We had an additional step in the middle to prepare the data as we separated the original categorical variable into two separate variables. For each observations, we want to know what their responses was (smile or no smile) and what the weather was (sun or rain).</p>
+<p>Now we have both variables, we can create a contingency table for the combination of observations in each category. We will use the <code>table()</code> function again, but this time select our two categorical variables to enter. We now have a frequency table for each combination of response and weather.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>Smile_weather_frequency <span class="ot">&lt;-</span> Smile_weather <span class="sc">%&gt;%</span> </span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Response, Weather) <span class="sc">%&gt;%</span> </span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">table</span>()</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>Smile_weather_frequency</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          Weather
+Response   Rainy Sunny
+  No Smile    37    33
+  Smile       25    50</code></pre>
+</div>
+</div>
+</section>
+<section id="enter-data-as-a-frequency-table" class="level3">
+<h3 class="anchored" data-anchor-id="enter-data-as-a-frequency-table">Enter data as a frequency table</h3>
+<p>Alternatively, you might start with a frequency table if you do not have access to the raw data. As for the one-sample Chi-Square, we can enter the values into a matrix and give the rows and columns informative names. Now we have the combination of two variables, its important you check the order you enter the values and the final frequency table is consistent with what you have intended.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>Smile_weather_frequency <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">37</span>, <span class="dv">33</span>, <span class="dv">25</span>, <span class="dv">50</span>), <span class="co"># Frequency values for each category combination</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>                           <span class="at">ncol =</span> <span class="dv">2</span>, <span class="co"># 2 columns, so the data are not in one column</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>                           <span class="at">byrow =</span> <span class="cn">TRUE</span>) <span class="co"># Enter the values one row at a time</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="co"># For clarity, add names to each column</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(Smile_weather_frequency) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Rainy"</span>, <span class="st">"Sunny"</span>)</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="co"># For clarity, add names to each row</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(Smile_weather_frequency) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"No Smile"</span>, <span class="st">"Smile"</span>)</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>Smile_weather_frequency</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         Rainy Sunny
+No Smile    37    33
+Smile       25    50</code></pre>
+</div>
+</div>
+</section>
+<section id="chi-square-function-in-r-1" class="level3">
+<h3 class="anchored" data-anchor-id="chi-square-function-in-r-1">Chi-Square function in R</h3>
+<p>Regardless of the method you enter the data, you should now have a frequency table of your two categorical variables. You can apply the same base R function as before to calculate a cross-tabulation Chi-Square test.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chisq.test</span>(Smile_weather_frequency, </span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>           <span class="at">correct =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Pearson's Chi-squared test
+
+data:  Smile_weather_frequency
+X-squared = 5.6388, df = 1, p-value = 0.01757</code></pre>
+</div>
+</div>
+<p>In the output, we have our Chi-Square test statistics, the degrees of freedom, and the <em>p</em>-value. In this scenario, we added the argument <code>correct = FALSE</code> as by default, R applies the Yates’s correction for continuity. This strictly applies only to the 2x2 application of the cross-tabulation Chi-Square, so it does not always apply. It applies a correction which typically reduces the Chi-Square value but it has been criticised for being overly conservative. You can see its effect and change to the output by editing the argument to <code>correct = TRUE</code>.</p>
+<p>Back to the non-corrected example, we do have a statistically significant association between the facial response and the weather:</p>
+<div class="cell">
+
+</div>
+<p><span class="math inline">\(\chi^2\)</span> (1) = 5.64, <em>p</em> = .018.</p>
+<p>We can reject the null hypothesis and it appears there is a different pattern of facial responses depending on the weather. You might have noticed the trend from the frequency table, but it is easier to interpret from a bar plot of the frequencies.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>Smile_weather <span class="sc">%&gt;%</span> </span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Weather, <span class="at">fill =</span> Response)) <span class="sc">+</span> </span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span> </span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span> </span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">50</span>), <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">50</span>, <span class="dv">10</span>), <span class="at">name =</span> <span class="st">"Frequency"</span>) <span class="sc">+</span> </span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_discrete</span>(<span class="at">name =</span> <span class="st">"Weather During Observation"</span>) <span class="sc">+</span> </span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_d</span>(<span class="at">option =</span> <span class="st">"E"</span>, <span class="at">begin =</span> <span class="fl">0.5</span>, <span class="at">end =</span> <span class="fl">0.95</span>) <span class="sc">+</span> <span class="co"># Colourblind friendly pallete </span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"The Frequency of Whether Participants Returned a Smile or Not by the Weather."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Chi_Square_R_files/figure-html/smiles%20weather%20bar%20plot-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>When the weather is rainy, people are more likely to not return a smile. However, when it is sunny, people are more likely to return a smile. This shows there is an association between the pattern of facial response and the weather during the observation.</p>
+<p>Finally, we can check the observed values for our final assumption. To work as intended, the expected values must be higher than 5 again. If the expected value is less than 5 for one of the cells/categories, you will receive a warning that the results may not be accurate. We can check the expected values for our full example.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chisq.test</span>(Smile_weather_frequency, </span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>           <span class="at">correct =</span> <span class="cn">FALSE</span>)<span class="sc">$</span>expected</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            Rainy    Sunny
+No Smile 29.93103 40.06897
+Smile    32.06897 42.93103</code></pre>
+</div>
+</div>
+<p>To demonstrate what the warning looks like, we will need to amend the data set so there are fewer than 5 expected values.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>Smile_weather_frequency <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">7</span>), <span class="co"># Frequency values for each category combination</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>                           <span class="at">ncol =</span> <span class="dv">2</span>, <span class="co"># 2 columns, so the data are not in one column</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>                           <span class="at">byrow =</span> <span class="cn">TRUE</span>) <span class="co"># Enter the values one row at a time</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="co"># For clarity, add names to each column</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(Smile_weather_frequency) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Rainy"</span>, <span class="st">"Sunny"</span>)</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a><span class="co"># For clarity, add names to each row</span></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(Smile_weather_frequency) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"No Smile"</span>, <span class="st">"Smile"</span>)</span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a><span class="fu">chisq.test</span>(Smile_weather_frequency, </span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>           <span class="at">correct =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in chisq.test(Smile_weather_frequency, correct = FALSE): Chi-squared
+approximation may be incorrect</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Pearson's Chi-squared test
+
+data:  Smile_weather_frequency
+X-squared = 1, df = 1, p-value = 0.3173</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chisq.test</span>(Smile_weather_frequency, </span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>           <span class="at">correct =</span> <span class="cn">FALSE</span>)<span class="sc">$</span>expected</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in chisq.test(Smile_weather_frequency, correct = FALSE): Chi-squared
+approximation may be incorrect</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         Rainy Sunny
+No Smile     3     3
+Smile        6     6</code></pre>
+</div>
+</div>
+<p>This shows how when you have fewer than 5 expected values, you receive the warning “Chi-squared approximation may be incorrect”. This highlights how the test statistic and <em>p</em>-value may be inaccurate when there is too little data to work with.</p>
+<p>Now we have a 2x2 design, we can demonstrate the alternative test designed for smaller samples known as Fisher’s exact test. It is another base R function called <code>fisher.test</code> and you simply enter the frequency table you should already have prepared.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fisher.test</span>(Smile_weather_frequency)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Fisher's Exact Test for Count Data
+
+data:  Smile_weather_frequency
+p-value = 0.6199
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+  0.2535246 40.4712534
+sample estimates:
+odds ratio 
+  2.640365 </code></pre>
+</div>
+</div>
+<p>The output is a little different to the standard Chi-Square. The key parts are the <em>p</em>-value and the odds ratio. The odds ratio tells you how many times more cases there are in one combination of variables compared to the other combination. For example, how many times more smile cases there are compared to no smile cases across the weather variable. An odds ratio of 1 means there is no difference. An odds ratio greater than 1 means there are more cases in your target condition, whereas an odds ratio less than 1 means are less cases in your target condition. This means its important to consider how your variables are organised.</p>
+<p>As before, the <em>p</em>-value indicates whether you can reject the null hypothesis. The null hypothesis for this test is the odds ratio is 1: there is no difference in the number of cases across variables. The alternative hypothesis is the odds ratio is not 1: there <em>is</em> a difference in the number of cases across variables.</p>
+<p>For this tiny example, assuming <span class="math inline">\(\alpha = .05\)</span>, there is not a statistically significant effect and we cannot reject the null hypothesis.</p>
+</section>
+</section>
+</section>
+<section id="conclusion" class="level1">
+<h1>Conclusion</h1>
+<p>In this tutorial, you have worked through how to conduct and interpret the Chi-Square test in R. First, you applied the test to a single categorical variable, then to two or more categorical variables. For each application, you worked through an overview of how the test works, and how to wrangle and analyse the data in R. You also saw you can visualise categorical data using a bar plot to show the frequency of different categories.</p>
+<p>You should now be able to apply these techniques to when you are working with categorical data of your own and answering your own research question.</p>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
