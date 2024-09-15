@@ -26,4 +26,10 @@ Check out the .Rmd file if you want to play around with the example. It should k
  
  ----
  
+## Where to learn more about R/RStudio? 
+ 
+If you need more resources about learning how to use R/RStudio, we have the whole [PsyTeachR](https://psyteachr.github.io/) suite of books. 
+ 
+The [Fundamentals of Quantitative Analysis](https://psyteachr.github.io/quant-fun-v3/) book is probably the best one-stop resource as it's designed to teach MSc conversion students data skills in a 10-week semester. 
+ 
  <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
