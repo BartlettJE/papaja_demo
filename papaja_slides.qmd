@@ -7,21 +7,29 @@ format:
 editor: visual
 ---
 
-## Workshop overview 
+## Workshop overview
 
-1. Overview of papaja and reproducible documents.
+::: columns
+::: {.column width="70%"}
+1.  Overview of reproducible documents.
 
-2. papaja walkthrough.
+2.  papaja walkthrough.
 
-3. Work on your own project.
+3.  Work on your own project.
 
 **Preparation**
 
-- Do you have R/RStudio installed? 
+-   Have you downloaded the workshop materials?
 
-- Do you have `tidyverse` and `papaja` installed? 
+-   Are `tidyverse`, `papaja`, and `pwr` installed?
 
-- Do you have a LaTeX system installed? 
+-   Do you have a LaTeX system installed?
+:::
+
+::: {.column width="30%"}
+![](Screenshots/papaja_qr.png)
+:::
+:::
 
 ## What problems are we trying to solve?
 
