@@ -1,11 +1,27 @@
 ---
 title: "APA-style manuscripts with RMarkdown and papaja"
-author: "Dr James Bartlett"
+author: "Dr James Bartlett and Dr Gaby Mahrholz"
 format: 
   revealjs:
       embed-resources: true
 editor: visual
 ---
+
+## Workshop overview 
+
+1. Overview of papaja and reproducible documents.
+
+2. papaja walkthrough.
+
+3. Work on your own project.
+
+**Preparation**
+
+- Do you have R/RStudio installed? 
+
+- Do you have `tidyverse` and `papaja` installed? 
+
+- Do you have a LaTeX system installed? 
 
 ## What problems are we trying to solve?
 
@@ -31,7 +47,7 @@ editor: visual
 
 -   When there are errors, there are *reproducible errors*
 
-## My journey
+## James' journey
 
 It took me several years and projects to adopt this workflow:
 
@@ -52,7 +68,7 @@ papaja ([Aust & Barth, 2022](https://github.com/crsh/papaja)) adds templates whe
 install.packages("papaja")
 ```
 
-In this tutorial, I will walk through:
+In this tutorial, we will walk through:
 
 -   YAML options
 
@@ -64,7 +80,7 @@ In this tutorial, I will walk through:
 
 ## Mock example: Error-free vs error-full code
 
--   I've created a mock example using papaja and simulated data to show it capabilities
+-   We have created a mock example using papaja and simulated data to show it capabilities
 
 -   Building on [Hoffman and Elmi (2021)](https://www.tandfonline.com/doi/abs/10.1080/26939169.2021.1967229): What is the effect of teaching debugging skills on students' data wrangling ability?
 
@@ -80,18 +96,20 @@ In this tutorial, I will walk through:
 
 <!-- -->
 
-    ---
-    author: 
-      - name          : "James Bartlett"
-        affiliation   : "1"
-        corresponding : yes    # Define only one corresponding author
-        address       : "62 Hillhead Street, Glasgow"
-        email         : "james.bartlett@glasgow.ac.uk"
-        role:         
-          - "Conceptualization"
-          - "Writing - Original Draft Preparation"
-          - "Writing - Review & Editing"
-    ---
+```         
+---
+author: 
+  - name          : "James Bartlett"
+    affiliation   : "1"
+    corresponding : yes    # Define only one corresponding author
+    address       : "62 Hillhead Street, Glasgow"
+    email         : "james.bartlett@glasgow.ac.uk"
+    role:         
+      - "Conceptualization"
+      - "Writing - Original Draft Preparation"
+      - "Writing - Review & Editing"
+---
+```
 
 ## YAML options
 
@@ -117,9 +135,11 @@ I recommend Zotero as a reference manager: <https://www.zotero.org/>
 
 <!-- -->
 
-        ---
-        bibliography      : ["references.bib", "r-references.bib"]
-        ---
+```         
+    ---
+    bibliography      : ["references.bib", "r-references.bib"]
+    ---
+```
 
 ## YAML options
 
@@ -131,9 +151,11 @@ I recommend Zotero as a reference manager: <https://www.zotero.org/>
 
 E.g., APA 7th edition
 
-        ---
-        csl               : apa7.csl
-        ---
+```         
+    ---
+    csl               : apa7.csl
+    ---
+```
 
 ## YAML options
 
@@ -145,23 +167,11 @@ E.g., APA 7th edition
 
 E.g., Vancouver
 
-        ---
-        csl               : vancouver.csl
-        ---
-
-## YAML options
-
-### Changing the reference style
-
-::: columns
-::: {.column width="50%"}
-APA 7th edition ![](Screenshots/apa7.png)
-:::
-
-::: {.column width="50%"}
-Vancouver ![](Screenshots/vancouver.png)
-:::
-:::
+```         
+    ---
+    csl               : vancouver.csl
+    ---
+```
 
 ## YAML options
 
@@ -177,32 +187,38 @@ Depending on the journal submission guidelines, you can change different feature
 
 <!-- -->
 
-    ---
-    floatsintext      : yes # Figures and tables floating or at the end?
-    linenumbers       : yes # Add line numbers? 
-    draft             : no # Add draft watermark on every page? 
-    mask              : no # Hide author details for blind submission? 
-    ---
+```         
+---
+floatsintext      : yes # Figures and tables floating or at the end?
+linenumbers       : yes # Add line numbers? 
+draft             : no # Add draft watermark on every page? 
+mask              : no # Hide author details for blind submission? 
+---
+```
 
 ## YAML options
 
 ### Output options
 
--   The default output with the best functionality for the knitted document is a PDF:
+-   The default output for the knitted document is a PDF:
 
 <!-- -->
 
-    ---
-    output            : papaja::apa6_pdf 
-    ---
+```         
+---
+output            : papaja::apa6_pdf 
+---
+```
 
--   However, you can also knit a Word document if you need it:
+-   However, you can also knit a Word document if you (or collaborators) need it:
 
 <!-- -->
 
-    ---
-    output            : papaja::apa6_word
-    ---
+```         
+---
+output            : papaja::apa6_word
+---
+```
 
 ## Citations and references
 
@@ -358,17 +374,19 @@ mock_data %>%
 
 In the code chunk settings, you can do things like reference a caption and control the size of figures
 
-    Figure \@ref(fig:violin-plot) shows...
+````         
+Figure \@ref(fig:violin-plot) shows...
 
-    (ref:violin-plot-caption) Violin and boxplot of... 
+(ref:violin-plot-caption) Violin and boxplot of... 
 
-    ```{{r violin-plot, fig.cap="(ref:violin-plot-caption)", out.width="100%"}}
+```{{r violin-plot, fig.cap="(ref:violin-plot-caption)", out.width="100%"}}
 
-    mock_data %>% 
-      ggplot(aes(x = Group, y = DV, fill = Group)) + 
-      geom_violin()...
-      
-    ```
+mock_data %>% 
+  ggplot(aes(x = Group, y = DV, fill = Group)) + 
+  geom_violin()...
+  
+```
+````
 
 ## Tables
 
@@ -380,8 +398,7 @@ mock_descriptives <- mock_data %>%
   summarise(Mean = mean(DV),
             SD = sd(DV),
             Min = min(DV),
-            Max = max(DV)) %>% 
-  ungroup()
+            Max = max(DV))
 
 descriptives <- printnum(mock_descriptives)
 
@@ -401,8 +418,7 @@ mock_descriptives <- mock_data %>%
   summarise(Mean = mean(DV),
             SD = sd(DV),
             Min = min(DV),
-            Max = max(DV)) %>% 
-  ungroup()
+            Max = max(DV))
 
 # papaja function to round and save as character
 descriptives <- printnum(mock_descriptives)
@@ -421,8 +437,7 @@ papaja has helper functions for creating APA style result formatting: <http://fr
 
 ```{r}
 mock_ttest <- t.test(DV ~ Group, 
-                     data = mock_data, 
-                     paired = FALSE)
+                     data = mock_data)
 
 apa_ttest <- apa_print(mock_ttest)$full_result
 ```
@@ -438,8 +453,7 @@ Behind the scenes...
 ```{r, echo = TRUE}
 # Save ttest as object
 mock_ttest <- t.test(DV ~ Group, 
-                     data = mock_data, 
-                     paired = FALSE)
+                     data = mock_data)
 
 # papaja helper function of printing results in APA
 apa_ttest <- apa_print(mock_ttest)$full_result
@@ -447,10 +461,29 @@ apa_ttest <- apa_print(mock_ttest)$full_result
 
 "Consistent with our hypothesis, a Welch t-test shows that participants in the error-full group produced significantly higher data skills assignment scores than those in the error-free group, `'r apa_ttest'`."
 
+## Model objects
+
+**Saving objects**
+
+If you have code which takes a long time to run, you can save model objects:
+
+```{r eval=FALSE, echo=TRUE}
+write_rds(mock_ttest, 
+          file = "Model1.Rds")
+```
+
+**Loading objects**
+
+You can then load in the objects quickly within a code chunk:
+
+```{r eval=FALSE, echo=TRUE}
+mock_ttest <- read_rds(file = "Model1.Rds")
+```
+
 ## Where to learn more?
 
 -   Slides and folder containing mock example available on Github: <https://github.com/BartlettJE/papaja_demo>
 
--   Full example from my recent publication: <https://osf.io/gm4jr/>
+-   Full example from James' recent publication: <https://osf.io/gm4jr/>
 
 -   papaja manual (section 7 includes published manuscripts using papaja): <http://frederikaust.com/papaja_man/>
