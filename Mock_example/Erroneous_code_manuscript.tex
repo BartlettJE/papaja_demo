@@ -5,16 +5,19 @@
 \documentclass[
   man,floatsintext]{apa6}
 \usepackage{amsmath,amssymb}
-\usepackage{lmodern}
 \usepackage{iftex}
 \ifPDFTeX
   \usepackage[T1]{fontenc}
   \usepackage[utf8]{inputenc}
   \usepackage{textcomp} % provide euro and other symbols
 \else % if luatex or xetex
-  \usepackage{unicode-math}
+  \usepackage{unicode-math} % this also loads fontspec
   \defaultfontfeatures{Scale=MatchLowercase}
   \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
 \fi
 % Use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
@@ -135,13 +138,13 @@
   {\normalfont\normalsize\itshape\hspace{\parindent}{#1}\textit{\addperi}}{\relax}}
 \makeatother
 
-% \usepackage{etoolbox}
 \makeatletter
-\patchcmd{\HyOrg@maketitle}
+\usepackage{etoolbox}
+\patchcmd{\maketitle}
   {\section{\normalfont\normalsize\abstractname}}
   {\section*{\normalfont\normalsize\abstractname}}
   {}{\typeout{Failed to patch abstract.}}
-\patchcmd{\HyOrg@maketitle}
+\patchcmd{\maketitle}
   {\section{\protect\normalfont{\@title}}}
   {\section*{\protect\normalfont{\@title}}}
   {}{\typeout{Failed to patch title.}}
@@ -165,17 +168,17 @@
 \fi
 \IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
-\urlstyle{same} % disable monospaced font for URLs
+\urlstyle{same}
 \hypersetup{
   pdftitle={The effect of erroneous R code on developing data skills},
-  pdfauthor={James Bartlett1},
+  pdfauthor={James Bartlett1 \& Gaby Mahrholz1},
   pdflang={en-EN},
   pdfkeywords={learning, R, statistical programming, error-full learning},
   hidelinks,
   pdfcreator={LaTeX via pandoc}}
 
 \title{The effect of erroneous R code on developing data skills}
-\author{James Bartlett\textsuperscript{1}}
+\author{James Bartlett\textsuperscript{1} \& Gaby Mahrholz\textsuperscript{1}}
 \date{}
 
 
@@ -185,7 +188,7 @@
 
 This demonstration is based on mock data.
 
-The authors made the following contributions. James Bartlett: Conceptualization, Writing - Original Draft Preparation, Writing - Review \& Editing.
+The authors made the following contributions. James Bartlett: Conceptualization, Writing - Original Draft Preparation, Writing - Review \& Editing; Gaby Mahrholz: Writing - Review \& Editing.
 
 Correspondence concerning this article should be addressed to James Bartlett, 62 Hillhead Street, Glasgow. E-mail: \href{mailto:james.bartlett@glasgow.ac.uk}{\nolinkurl{james.bartlett@glasgow.ac.uk}}
 
@@ -304,7 +307,7 @@ In conclusion, a lecture format that covers both data wrangling and debugging sk
 \hypertarget{disclosures}{%
 \section{Disclosures}\label{disclosures}}
 
-We used R (Version 4.1.3; R Core Team, 2022) and the R-packages \emph{dplyr} (Version 1.0.10; Wickham, François, et al., 2022), \emph{ggplot2} (Version 3.3.6; Wickham, 2016), \emph{papaja} (Version 0.1.1; Aust \& Barth, 2022), \emph{pwr} (Version 1.3.0; Champely, 2020), \emph{readr} (Version 2.1.2; Wickham, Hester, et al., 2022), and \emph{tinylabels} (Version 0.2.3; Barth, 2022) for all our analyses.
+We used R (Version 4.4.1; R Core Team, 2024) and the R-packages \emph{dplyr} (Version 1.1.4; Wickham et al., 2023), \emph{forcats} (Version 1.0.0; Wickham, 2023a), \emph{ggplot2} (Version 3.5.1; Wickham, 2016), \emph{lubridate} (Version 1.9.3; Grolemund \& Wickham, 2011), \emph{papaja} (Version 0.1.2; Aust \& Barth, 2023), \emph{purrr} (Version 1.0.2; Wickham \& Henry, 2023), \emph{pwr} (Version 1.3.0; Champely, 2020), \emph{readr} (Version 2.1.5; Wickham, Hester, et al., 2024), \emph{stringr} (Version 1.5.1; Wickham, 2023b), \emph{tibble} (Version 3.2.1; Müller \& Wickham, 2023), \emph{tidyr} (Version 1.3.1; Wickham, Vaughan, et al., 2024), \emph{tidyverse} (Version 2.0.0; Wickham et al., 2019), and \emph{tinylabels} (Version 0.2.4; Barth, 2023) for all our analyses.
 
 \newpage
 
@@ -314,10 +317,10 @@ We used R (Version 4.1.3; R Core Team, 2022) and the R-packages \emph{dplyr} (Ve
 \hypertarget{refs}{}
 \begin{CSLReferences}{1}{0}
 \leavevmode\vadjust pre{\hypertarget{ref-R-papaja}{}}%
-Aust, F., \& Barth, M. (2022). \emph{{papaja}: {Prepare} reproducible {APA} journal articles with {R Markdown}}. \url{https://github.com/crsh/papaja}
+Aust, F., \& Barth, M. (2023). \emph{{papaja}: {Prepare} reproducible {APA} journal articles with {R Markdown}}. \url{https://github.com/crsh/papaja}
 
 \leavevmode\vadjust pre{\hypertarget{ref-R-tinylabels}{}}%
-Barth, M. (2022). \emph{{tinylabels}: Lightweight variable labels}. \url{https://cran.r-project.org/package=tinylabels}
+Barth, M. (2023). \emph{{tinylabels}: Lightweight variable labels}. \url{https://cran.r-project.org/package=tinylabels}
 
 \leavevmode\vadjust pre{\hypertarget{ref-bebermeier_creating_2019}{}}%
 Bebermeier, S., \& Hagemann, A. (2019). Creating {Statistics} {Exercises} on the {Basis} of {Research} {Articles}. \emph{Teaching of Psychology}, \emph{46}(3), 240--245. \url{https://doi.org/10.1177/0098628319853938}
@@ -325,14 +328,20 @@ Bebermeier, S., \& Hagemann, A. (2019). Creating {Statistics} {Exercises} on the
 \leavevmode\vadjust pre{\hypertarget{ref-R-pwr}{}}%
 Champely, S. (2020). \emph{Pwr: Basic functions for power analysis}. \url{https://CRAN.R-project.org/package=pwr}
 
+\leavevmode\vadjust pre{\hypertarget{ref-R-lubridate}{}}%
+Grolemund, G., \& Wickham, H. (2011). Dates and times made easy with {lubridate}. \emph{Journal of Statistical Software}, \emph{40}(3), 1--25. \url{https://www.jstatsoft.org/v40/i03/}
+
 \leavevmode\vadjust pre{\hypertarget{ref-hoffman_students_2021}{}}%
 Hoffman, H. J., \& Elmi, A. F. (2021). Do {Students} {Learn} {More} from {Erroneous} {Code}? {Exploring} {Student} {Performance} and {Satisfaction} in an {Error}-{Free} {Versus} an {Error}-full {SAS}® {Programming} {Environment}. \emph{Journal of Statistics and Data Science Education}, \emph{0}(0), 1--13. \url{https://doi.org/10.1080/26939169.2021.1967229}
 
 \leavevmode\vadjust pre{\hypertarget{ref-mcaleer_embedding_2022}{}}%
 McAleer, P., Stack, N., Woods, H., DeBruine, L., Paterson, H., Nordmann, E., Kuepper-Tetzel, C. E., \& Barr, D. J. (2022). \emph{Embedding {Data} {Skills} in {Research} {Methods} {Education}: {Preparing} {Students} for {Reproducible} {Research}}. PsyArXiv. \url{https://doi.org/10.31234/osf.io/hq68s}
 
+\leavevmode\vadjust pre{\hypertarget{ref-R-tibble}{}}%
+Müller, K., \& Wickham, H. (2023). \emph{Tibble: Simple data frames}. \url{https://CRAN.R-project.org/package=tibble}
+
 \leavevmode\vadjust pre{\hypertarget{ref-R-base}{}}%
-R Core Team. (2022). \emph{R: A language and environment for statistical computing}. R Foundation for Statistical Computing. \url{https://www.R-project.org/}
+R Core Team. (2024). \emph{R: A language and environment for statistical computing}. R Foundation for Statistical Computing. \url{https://www.R-project.org/}
 
 \leavevmode\vadjust pre{\hypertarget{ref-simonsohn_small_2015}{}}%
 Simonsohn, U. (2015). Small {Telescopes}: {Detectability} and the {Evaluation} of {Replication} {Results}. \emph{Psychological Science}, \emph{26}(5), 559--569. \url{https://doi.org/10.1177/0956797614567341}
@@ -343,11 +352,26 @@ TARG Meta-Research Group. (2022). Statistics {Education} in {Undergraduate} {Psy
 \leavevmode\vadjust pre{\hypertarget{ref-R-ggplot2}{}}%
 Wickham, H. (2016). \emph{ggplot2: Elegant graphics for data analysis}. Springer-Verlag New York. \url{https://ggplot2.tidyverse.org}
 
+\leavevmode\vadjust pre{\hypertarget{ref-R-forcats}{}}%
+Wickham, H. (2023a). \emph{Forcats: Tools for working with categorical variables (factors)}. \url{https://CRAN.R-project.org/package=forcats}
+
+\leavevmode\vadjust pre{\hypertarget{ref-R-stringr}{}}%
+Wickham, H. (2023b). \emph{Stringr: Simple, consistent wrappers for common string operations}. \url{https://CRAN.R-project.org/package=stringr}
+
+\leavevmode\vadjust pre{\hypertarget{ref-R-tidyverse}{}}%
+Wickham, H., Averick, M., Bryan, J., Chang, W., McGowan, L. D., François, R., Grolemund, G., Hayes, A., Henry, L., Hester, J., Kuhn, M., Pedersen, T. L., Miller, E., Bache, S. M., Müller, K., Ooms, J., Robinson, D., Seidel, D. P., Spinu, V., \ldots{} Yutani, H. (2019). Welcome to the {tidyverse}. \emph{Journal of Open Source Software}, \emph{4}(43), 1686. \url{https://doi.org/10.21105/joss.01686}
+
 \leavevmode\vadjust pre{\hypertarget{ref-R-dplyr}{}}%
-Wickham, H., François, R., Henry, L., \& Müller, K. (2022). \emph{Dplyr: A grammar of data manipulation}. \url{https://CRAN.R-project.org/package=dplyr}
+Wickham, H., François, R., Henry, L., Müller, K., \& Vaughan, D. (2023). \emph{Dplyr: A grammar of data manipulation}. \url{https://CRAN.R-project.org/package=dplyr}
+
+\leavevmode\vadjust pre{\hypertarget{ref-R-purrr}{}}%
+Wickham, H., \& Henry, L. (2023). \emph{Purrr: Functional programming tools}. \url{https://CRAN.R-project.org/package=purrr}
 
 \leavevmode\vadjust pre{\hypertarget{ref-R-readr}{}}%
-Wickham, H., Hester, J., \& Bryan, J. (2022). \emph{Readr: Read rectangular text data}. \url{https://CRAN.R-project.org/package=readr}
+Wickham, H., Hester, J., \& Bryan, J. (2024). \emph{Readr: Read rectangular text data}. \url{https://CRAN.R-project.org/package=readr}
+
+\leavevmode\vadjust pre{\hypertarget{ref-R-tidyr}{}}%
+Wickham, H., Vaughan, D., \& Girlich, M. (2024). \emph{Tidyr: Tidy messy data}. \url{https://CRAN.R-project.org/package=tidyr}
 
 \end{CSLReferences}
 

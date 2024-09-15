@@ -12,6 +12,13 @@ author:
       - "Conceptualization"
       - "Writing - Original Draft Preparation"
       - "Writing - Review & Editing"
+  - name          : "Gaby Mahrholz"
+    affiliation   : "1"
+    corresponding : no  
+    address       : "62 Hillhead Street, Glasgow"
+    email         : "gaby.mahrholz@glasgow.ac.uk"
+    role:          
+      - "Writing - Review & Editing"
 
 affiliation:
   - id            : "1"
@@ -53,9 +60,7 @@ output            : papaja::apa6_pdf # Can change ending to _word to knit to Wor
 # load packages for bare bones demo
 library(papaja)
 library(pwr)
-library(dplyr)
-library(ggplot2)
-library(readr)
+library(tidyverse)
 
 # papaja function to create .bib file of all loaded R packages
 r_refs("r-references.bib", 
@@ -183,8 +188,7 @@ mock_descriptives <- mock_data %>%
   summarise(Mean = mean(DV),
             SD = sd(DV),
             Min = min(DV),
-            Max = max(DV)) %>% 
-  ungroup() # Always ungroups 
+            Max = max(DV))
 
 # papaja function to round and save as character
 descriptives <- printnum(mock_descriptives)
@@ -198,8 +202,7 @@ apa_table(descriptives,
 ```{r ttest}
 # Save ttest as object
 mock_ttest <- t.test(DV ~ Group, 
-                     data = mock_data, 
-                     paired = FALSE)
+                     data = mock_data)
 
 # papaja helper function of printing results in APA
 apa_ttest <- apa_print(mock_ttest)$full_result
